@@ -1,3 +1,8 @@
+import { CustomImage } from "./shared/CustomImage"
+import { CustomInput } from "./shared/CustomInput"
+import { CustomSubtitle } from "./shared/CustomSubtitle"
+import { CustomTitle } from "./shared/CustomTitle"
+
 function Login() {
   return (
     <>
@@ -5,15 +10,23 @@ function Login() {
         <a href="/inicio">← Volver al Inicio</a> 
       </header>
       <div className="login-container">
-        <img src="src\assets\logo.png" alt="Logo de Deportes" className="logo" />
-        <h2>Iniciar Sesión</h2>
-        <h3>Inicia sesión para acceder a todos nuestros servicios.</h3>
+        <CustomImage src="src/assets/logo.png" alt="Logo de Deportes" className="logo"/>
+        <CustomTitle text="Iniciar Sesión"/>
+        <CustomSubtitle text="Inicia sesión para acceder a todos nuestros servicios."/>
         <form>
-          <label htmlFor="email">Correo Electrónico:</label> <br/>
-          <input type="email" id="email" name="email" required />
+          <CustomInput labelText="Correo Electrónico:" 
+            inputType="email" 
+            inputId="email" 
+            inputName="email" 
+            isRequired={true} 
+            placeholder="ejemplo@correo.com"/> 
           
-          <label htmlFor="password">Contraseña: <a href="/recuperar-contrasena" className="forgot-password-link">¿Olvidaste tu contraseña?</a></label> <br/>
-          <input type="password" id="password" name="password" required />
+          <CustomInput labelText="Contraseña:"
+            inputType="password" 
+            inputId="password" 
+            inputName="password" 
+            isRequired={true} 
+            placeholder="Ingresa tu contraseña..."/>
           
           <button type="submit">Iniciar Sesión</button>
         </form>

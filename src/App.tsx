@@ -1,35 +1,27 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
-function App() {
-  const [count, setCount] = useState(0)
-
+function Login() {
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <header>
+        <a href="/inicio">← Volver al Inicio</a> 
+      </header>
+      <div className="login-container">
+        <img src="src\assets\logo.png" alt="Logo de Deportes" className="logo" />
+        <h2>Iniciar Sesión</h2>
+        <h3>Inicia sesión para acceder a todos nuestros servicios.</h3>
+        <form>
+          <label htmlFor="email">Correo Electrónico:</label> <br/>
+          <input type="email" id="email" name="email" required />
+          
+          <label htmlFor="password">Contraseña: <a href="/recuperar-contrasena" className="forgot-password-link">¿Olvidaste tu contraseña?</a></label> <br/>
+          <input type="password" id="password" name="password" required />
+          
+          <button type="submit">Iniciar Sesión</button>
+        </form>
+
+        <p>¿No tienes una cuenta? <a href="/registro" className="register-link">Regístrate aquí</a></p>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
 
-export default App
+export default Login

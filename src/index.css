@@ -54,7 +54,7 @@ header a
   color: gray;
 }
 
-a:hover
+.login-container a:hover
 {
   color: #2E5B2B;
 }

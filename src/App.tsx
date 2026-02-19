@@ -1,35 +1,65 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { CustomImage } from "./shared/CustomImage"
+import { CustomInput } from "./shared/CustomInput"
+import { CustomSubtitle } from "./shared/CustomSubtitle"
+import { CustomTitle } from "./shared/CustomTitle"
 
-function App() {
-  const [count, setCount] = useState(0)
-
+function Login() {
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
+      <header>
+        <a href="/inicio">
+          <span>←</span> Volver al Inicio
         </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      </header>
+
+      <div className="login-page-wrapper">
+        <div className="login-container">
+          <div className="logo-container">
+            <CustomImage
+              src="src/assets/logo.png"
+              alt="Logo de Desportes"
+              className="logo"
+            />
+          </div>
+
+          <CustomTitle text="Iniciar Sesión" />
+          <CustomSubtitle text="Accede a tu cuenta para reservar tus canchas favoritas." />
+
+          <form>
+            <CustomInput
+              labelText="Correo Electrónico"
+              inputType="email"
+              inputId="email"
+              inputName="email"
+              isRequired={true}
+              placeholder="nombre@ejemplo.com"
+            />
+
+            <CustomInput
+              labelText="Contraseña"
+              inputType="password"
+              inputId="password"
+              inputName="password"
+              isRequired={true}
+              placeholder="••••••••"
+              labelLink={{
+                text: "¿Olvidaste tu contraseña?",
+                href: "/recuperar",
+                className: "forgot-password-link"
+              }}
+            />
+
+            <button type="submit">Entrar ahora</button>
+          </form>
+
+          <p className="footer-text">
+            ¿Aún no tienes cuenta?
+            <a href="/registro" className="register-link">Crea una aquí</a>
+          </p>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
 
-export default App
+export default Login

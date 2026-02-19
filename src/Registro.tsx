@@ -1,7 +1,7 @@
-import { CustomImage } from "./shared/CustomImage"
-import { CustomInput } from "./shared/CustomInput"
-import { CustomSubtitle } from "./shared/CustomSubtitle"
-import { CustomTitle } from "./shared/CustomTitle"
+import { CustomImage } from "../shared/CustomImage"
+import { CustomInput } from "../shared/CustomInput"
+import { CustomSubtitle } from "../shared/CustomSubtitle"
+import { CustomTitle } from "../shared/CustomTitle"
 
 function Registro() {
   return (

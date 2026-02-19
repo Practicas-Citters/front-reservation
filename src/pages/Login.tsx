@@ -1,3 +1,4 @@
+import { Link } from "react-router"
 import { CustomImage } from "../shared/CustomImage"
 import { CustomInput } from "../shared/CustomInput"
 import { CustomSubtitle } from "../shared/CustomSubtitle"
@@ -7,9 +8,9 @@ function Login() {
   return (
     <>
       <header>
-        <a href="/inicio">
+        <Link to="/inicio">
           <span>←</span> Volver al Inicio
-        </a>
+        </Link>
       </header>
 
       <div className="login-page-wrapper">
@@ -54,7 +55,7 @@ function Login() {
 
           <p className="footer-text">
             ¿Aún no tienes cuenta?
-            <a href="/registro" className="register-link">Crea una aquí</a>
+            <Link to="/registro" className="register-link">Crea una aquí</Link>
           </p>
         </div>
       </div>

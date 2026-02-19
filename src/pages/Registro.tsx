@@ -1,3 +1,4 @@
+import { Link } from "react-router"
 import { CustomImage } from "../shared/CustomImage"
 import { CustomInput } from "../shared/CustomInput"
 import { CustomSubtitle } from "../shared/CustomSubtitle"
@@ -7,9 +8,9 @@ function Registro() {
   return (
     <>
       <header>
-        <a href="/inicio">
+        <Link to="/inicio">
           <span>←</span> Volver al Inicio
-        </a>
+        </Link>
       </header>
 
       <div className="login-page-wrapper">
@@ -91,8 +92,8 @@ function Registro() {
           </form>
 
           <p className="footer-text">
-            ¿Ya tienes cuenta?
-            <a href="/login" className="register-link">Inicia sesión</a>
+            ¿Ya tienes una cuenta?
+            <Link to="/login" className="register-link">Inicia sesión</Link>
           </p>
         </div>
       </div>

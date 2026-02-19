@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 
 
 interface Props {
@@ -21,9 +22,9 @@ export const CustomInput = (input: Props) => {
       <div className="label-row">
         <label htmlFor={input.inputId}>{input.labelText}</label>
         {input.labelLink && (
-          <a href={input.labelLink.href} className={input.labelLink.className}>
+          <Link to={input.labelLink.href} className={input.labelLink.className}>
             {input.labelLink.text}
-          </a>
+          </Link>
         )}
       </div>
       <input type={input.inputType}

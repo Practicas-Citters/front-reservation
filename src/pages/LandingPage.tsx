@@ -1,12 +1,12 @@
-import { useNavigate } from 'react-router'
+import Button from '@mui/material/Button'
+import { Link } from 'react-router'
 
 const Landing = () => {
-  const navigate = useNavigate()
   return (
-    <div>
-      Esta será la página de inicio.
-      <button onClick={() => navigate("/login")}>Ir a Login</button>
-      <button onClick={() => navigate("/registro")}>Ir a Registro</button>
+    <div className="landing-page">
+      <h1 className="landing-page-title">Bienvenido a la página de inicio</h1>
+      <Link to="/login"><Button>Ir a Login</Button></Link>
+      <Link to="/registro"><Button>Ir a Registro</Button></Link>
     </div>
   )
 }

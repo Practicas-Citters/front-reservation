@@ -3,6 +3,7 @@ import { createBrowserRouter, Navigate } from 'react-router'
 import Registro from '../pages/Registro';
 import Login from '../pages/Login';
 import LandingPage from '../pages/LandingPage';
+import { PrivateRoute } from './private.routes';
 
 export const Router = createBrowserRouter(
     [
@@ -12,11 +13,11 @@ export const Router = createBrowserRouter(
         },
         {
             path: "/registro",
-            element: <Registro />
+            element: <PrivateRoute element={<Registro />} />
         },
         {
             path: "/login",
-            element: <Login />
+            element: <PrivateRoute element={<Login />} />
         },
         {
             path: "*",

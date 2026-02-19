@@ -76,7 +76,7 @@ header a:hover {
   padding: 50px 40px;
   border-radius: 24px;
   width: 100%;
-  max-width: 450px;
+  max-width: 650px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   animation: fadeIn 0.8s ease-out;
   margin-top: 5%;
@@ -216,4 +216,42 @@ header a:hover {
 
 .register-link:hover {
   color: #fff;
+}
+
+.datos-personales {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  border: 1px solid var(--glass-border);
+  padding: 25px;
+  border-radius: 16px;
+  margin-bottom: 30px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.datos-personales .input-field-group {
+  margin-bottom: 0;
+}
+
+.datos-personales-title {
+  color: #ffffff !important;
+  margin-bottom: 10px !important;
+  margin-top: 10px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 650px) {
+  .login-container {
+    padding: 30px 20px;
+    margin-top: 20%;
+  }
+
+  .datos-personales {
+    grid-template-columns: 1fr;
+    padding: 15px;
+    gap: 15px;
+  }
 }

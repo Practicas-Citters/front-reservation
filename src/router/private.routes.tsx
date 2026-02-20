@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Navigate } from 'react-router';
+import { UserContext } from '../context/user.context';
 
 interface Props
  {
@@ -8,7 +9,7 @@ interface Props
 
  export const PrivateRoute = ({ element }: Props) => 
     {
-        const isAuthenticated = false; // El valor se debe sacar del contexto
+        const { isAuthenticated } = useContext(UserContext);
         
         if (!isAuthenticated)
         {

@@ -1,14 +1,37 @@
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
+import { useContext, useState } from "react"
+import { UserContext, UserProvider } from "../context/user.context"
+
 import { CustomImage } from "../shared/CustomImage"
 import { CustomInput } from "../shared/CustomInput"
 import { CustomSubtitle } from "../shared/CustomSubtitle"
 import { CustomTitle } from "../shared/CustomTitle"
+import "../styles/Login.css"
 
 function Login() {
+
+  const { login } = useContext(UserContext);
+
+  const [isLoading, setisLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleLoginForm = (event:React.FormEvent<HTMLFormElement>) =>
+  {
+    event.preventDefault();
+    setisLoading(true);
+    if(login(email, password))
+    {
+      navigate("/");
+    }
+  }
+
   return (
     <>
       <header>
-        <Link to="/inicio">
+        <Link to="/inicio" className="back-link">
           <span>←</span> Volver al Inicio
         </Link>
       </header>
@@ -26,7 +49,7 @@ function Login() {
           <CustomTitle text="Iniciar Sesión" />
           <CustomSubtitle text="Accede a tu cuenta para reservar tus canchas favoritas." />
 
-          <form>
+          <form onSubmit={handleLoginForm}>
             <CustomInput
               labelText="Correo Electrónico"
               inputType="email"
@@ -34,6 +57,8 @@ function Login() {
               inputName="email"
               isRequired={true}
               placeholder="nombre@ejemplo.com"
+              value={email}
+              onChange={ event => setEmail(event.target.value)}
             />
 
             <CustomInput
@@ -43,6 +68,8 @@ function Login() {
               inputName="password"
               isRequired={true}
               placeholder="••••••••"
+              value={password}
+              onChange={ event => setPassword(event.target.value)}
               labelLink={{
                 text: "¿Olvidaste tu contraseña?",
                 href: "/recuperar",
@@ -50,7 +77,7 @@ function Login() {
               }}
             />
 
-            <button type="submit">Entrar ahora</button>
+            <button type="submit" disabled={isLoading}>Entrar ahora</button>
           </form>
 
           <p className="footer-text">

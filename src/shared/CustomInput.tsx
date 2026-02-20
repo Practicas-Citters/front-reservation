@@ -8,6 +8,8 @@ interface Props {
   inputId: string,
   inputName: string,
   isRequired: boolean,
+  value: string | undefined,
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
   className?: string,
   labelLink?: {
     text: string;
@@ -30,6 +32,8 @@ export const CustomInput = (input: Props) => {
       <input type={input.inputType}
         id={input.inputId}
         name={input.inputName}
+        value={input.value}
+        onChange={input.onChange}
         placeholder={input.placeholder}
         required={input.isRequired}
         className={input.className} />

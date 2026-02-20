@@ -26,6 +26,7 @@ function Login() {
     {
       navigate("/");
     }
+    setisLoading(false);
   }
 
   return (

@@ -4,6 +4,7 @@ import Registro from '../pages/Registro';
 import Login from '../pages/Login';
 import LandingPage from '../pages/LandingPage';
 import { PrivateRoute } from './private.routes';
+import { Reservas } from '../pages/Reservas';
 
 export const Router = createBrowserRouter(
     [
@@ -18,6 +19,10 @@ export const Router = createBrowserRouter(
         {
             path: "/login",
             element: <PrivateRoute element={<Login />} />
+        },
+        {
+            path: "/reservar",
+            element: <Reservas />
         },
         {
             path: "*",

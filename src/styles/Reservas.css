@@ -1,0 +1,470 @@
+/* Reservas.css */
+
+.reservas-page {
+    min-height: 100vh;
+    padding-top: 80px;
+    /* Space for the absolute header */
+}
+
+/* Header styling to match Login/Registro */
+
+.back-link {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.back-link:hover {
+    color: var(--text-main);
+    transform: translateX(-5px);
+}
+
+.reservas-layout_container {
+    display: flex;
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 2rem 1rem 2rem 2rem;
+    gap: 2rem;
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.reservas-main-content {
+    flex: 1;
+}
+
+.reservas-header-text {
+    margin-bottom: 30px;
+}
+
+.reservas-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    background: linear-gradient(to right, #ffffff, var(--primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.reservas-subtitle {
+    color: var(--text-muted);
+    font-size: 16px;
+    font-weight: 300;
+}
+
+/* Sport Selector Styles */
+.sport-selector-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 10px 5px 25px 5px;
+    margin-bottom: 30px;
+    scrollbar-width: none;
+    /* Hide scrollbar for Chrome/Safari below */
+}
+
+.sport-selector-container::-webkit-scrollbar {
+    display: none;
+}
+
+.sport-selection-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    min-width: 85px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.sport-selection-item:hover {
+    transform: translateY(-5px);
+}
+
+.sport-circle-button {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+
+.sport-circle-button img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+}
+
+.all-sports-icon {
+    font-size: 24px;
+}
+
+.sport-circle-button.active {
+    background: rgba(46, 204, 113, 0.2);
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(46, 204, 113, 0.3);
+    transform: scale(1.1);
+}
+
+.sport-name-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.sport-selection-item:hover .sport-name-label,
+.sport-circle-button.active+.sport-name-label {
+    color: var(--text-main);
+}
+
+/* Flex List for Courts */
+.reservas-flex-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.reserva-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    overflow: hidden;
+    width: calc(33.333% - 14px);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.reserva-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary);
+    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.reserva-card.active {
+    border-color: var(--primary);
+    background: rgba(46, 204, 113, 0.05);
+    box-shadow: 0 0 20px rgba(46, 204, 113, 0.2);
+}
+
+.reserva-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    opacity: 0.9;
+    transition: opacity 0.3s;
+}
+
+.reserva-card:hover .reserva-image {
+    opacity: 1;
+}
+
+.reserva-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.reserva-name {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: var(--text-main);
+}
+
+.reserva-description {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    line-height: 1.6;
+    flex: 1;
+}
+
+.reserva-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--glass-border);
+}
+
+.reserva-price {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 18px;
+}
+
+.reserva-capacity {
+    font-size: 13px;
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+}
+
+.reserva-selection-button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    background: var(--input-bg);
+    color: var(--text-main);
+    font-weight: 600;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.reserva-card:hover .reserva-selection-button,
+.reserva-card.active .reserva-selection-button {
+    background: var(--primary);
+    color: #000;
+    border-color: var(--primary);
+}
+
+/* Sidebar Styling */
+.sidebar-sticky {
+    position: sticky;
+    top: 100px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 20px;
+    width: 450px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.reservation-form-section h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input-group label {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.sidebar-input {
+    background: var(--input-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    padding: 12px;
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 14px;
+    transition: all 0.3s;
+    appearance: none;
+    /* Removes default OS arrow to allow custom styling if needed */
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23FFF8E1'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    cursor: pointer;
+}
+
+.sidebar-input option {
+    background-color: #1e293b;
+    /* A solid dark color (slate-800) for the dropdown list */
+    color: white;
+    padding: 10px;
+}
+
+.sidebar-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.pay-button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.selected-court-summary {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.sidebar-image {
+    width: 100%;
+    height: 160px;
+    border-radius: 16px;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 1px solid var(--glass-border);
+}
+
+.sidebar-sport-tag {
+    display: inline-block;
+    background: rgba(46, 204, 113, 0.1);
+    color: var(--primary);
+    padding: 4px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sidebar-info-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+}
+
+.sidebar-info-row span {
+    color: var(--text-muted);
+}
+
+.sidebar-info-row strong {
+    color: var(--text-main);
+}
+
+.sidebar-divider {
+    height: 1px;
+    background: var(--glass-border);
+    margin: 10px 0;
+}
+
+.sidebar-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-total span:first-child {
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.total-amount {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.pay-button {
+    width: 100%;
+    padding: 18px;
+    border-radius: 12px;
+    border: none;
+    background: var(--primary);
+    color: #000;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin-top: 10px;
+}
+
+.pay-button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -10px rgba(46, 204, 113, 0.5);
+}
+
+.sidebar-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 350px;
+    color: var(--text-muted);
+}
+
+.empty-icon {
+    font-size: 3rem;
+    margin-top: 20px;
+    opacity: 0.3;
+}
+
+@media (max-width: 1200px) {
+    .reserva-card {
+        width: calc(50% - 10px);
+    }
+}
+
+@media (max-width: 950px) {
+    .reservas-layout_container {
+        flex-direction: column;
+    }
+
+    .sidebar-sticky {
+        width: 100%;
+        position: relative;
+        top: 0;
+    }
+
+    .reserva-card {
+        width: 100%;
+    }
+}

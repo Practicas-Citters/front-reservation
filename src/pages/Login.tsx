@@ -18,12 +18,10 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const handleLoginForm = (event:React.FormEvent<HTMLFormElement>) =>
-  {
+  const handleLoginForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setisLoading(true);
-    if(login(email, password))
-    {
+    if (login(email, password)) {
       navigate("/");
     }
     setisLoading(false);
@@ -59,7 +57,7 @@ function Login() {
               isRequired={true}
               placeholder="nombre@ejemplo.com"
               value={email}
-              onChange={ event => setEmail(event.target.value)}
+              onChange={event => setEmail(event.target.value)}
             />
 
             <CustomInput
@@ -70,7 +68,7 @@ function Login() {
               isRequired={true}
               placeholder="••••••••"
               value={password}
-              onChange={ event => setPassword(event.target.value)}
+              onChange={event => setPassword(event.target.value)}
               labelLink={{
                 text: "¿Olvidaste tu contraseña?",
                 href: "/recuperar",

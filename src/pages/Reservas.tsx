@@ -11,6 +11,7 @@ import { CustomTitle } from '../shared/CustomTitle';
 import { CustomSubtitle } from '../shared/CustomSubtitle';
 
 import '../styles/Reservas.css';
+import CustomFooter from '../shared/CustomFooter';
 
 export const Reservas = () => {
   const { isAuthenticated } = useContext(UserContext);
@@ -40,7 +41,7 @@ export const Reservas = () => {
   useEffect(() => {
       setSelectedSportId(getSportIdFromParams());
       setSelectedCourt(getSelectedCourtFromParams());
-  }, []);
+  }, [selectedSportId, selectedCourt]);
 
   const filteredCourts = useMemo(() => {
     if (selectedSportId === 'all') return Courts;
@@ -219,6 +220,7 @@ export const Reservas = () => {
           </div>
         </aside>
       </div>
+      <CustomFooter/>
     </div>
   );
 };

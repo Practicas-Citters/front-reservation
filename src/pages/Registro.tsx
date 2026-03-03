@@ -7,6 +7,7 @@ import { CustomInput } from "../shared/CustomInput"
 import { CustomSubtitle } from "../shared/CustomSubtitle"
 import { CustomTitle } from "../shared/CustomTitle"
 import "../styles/Registro.css"
+import CustomFooter from "../shared/CustomFooter"
 
 function Registro() {
 
@@ -147,6 +148,7 @@ function Registro() {
           </p>
         </div>
       </div>
+      <CustomFooter />
     </>
   )
 }

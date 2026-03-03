@@ -195,7 +195,6 @@ const Landing = () => {
           <button className="carousel-btn carousel-btn-next" onClick={handleNextSport}>→</button>
         </div>
         
-        {/* Indicadores de posición */}
         <div className="carousel-dots">
           {Sports.map((_, index) => (
             <span

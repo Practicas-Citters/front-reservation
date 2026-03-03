@@ -1,4 +1,4 @@
-import { useState, useMemo, useContext } from 'react';
+import { useState, useMemo, useContext, useEffect } from 'react';
 import { Link } from 'react-router';
 
 import { UserContext } from '../context/user.context';
@@ -20,6 +20,27 @@ export const Reservas = () => {
   const [reservationDate, setReservationDate] = useState('');
   const [reservationTime, setReservationTime] = useState('');
   const [duration, setDuration] = useState(1);
+
+  const getSportIdFromParams = () => {
+    const params = new URLSearchParams(window.location.search);
+    const sportId = params.get('sportId');
+    return sportId ? sportId : 'all';
+  }
+
+  const getSelectedCourtFromParams = () => {
+    const params = new URLSearchParams(window.location.search);
+    const courtId = params.get('courtId');
+    if (courtId) {
+      const court = Courts.find(c => c.id === courtId);
+      return court || null;
+    }
+    return null;
+  }
+
+  useEffect(() => {
+      setSelectedSportId(getSportIdFromParams());
+      setSelectedCourt(getSelectedCourtFromParams());
+  }, []);
 
   const filteredCourts = useMemo(() => {
     if (selectedSportId === 'all') return Courts;

@@ -30,6 +30,7 @@ header a.back-link:hover {
     justify-content: center;
     align-items: center;
     padding: 40px 20px;
+    margin-bottom: 50px;
 }
 
 .login-container {

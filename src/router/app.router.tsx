@@ -24,12 +24,16 @@ export const Router = createBrowserRouter(
             path: "/reservar",
             element: <Reservas />
         },
+        /*
         {
-            path: ""
+            path: "/perfil"
+            element: <PrivateRoute element={<Perfil />} />
         },
         {
-
+            path: "/reservas"
+            element: element: <PrivateRoute element={<MisReservas />} />
         },
+        */
         {
             path: "*",
             element: <Navigate to="/" />

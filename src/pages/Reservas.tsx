@@ -12,6 +12,7 @@ import { CustomSubtitle } from '../shared/CustomSubtitle';
 
 import '../styles/Reservas.css';
 import CustomFooter from '../shared/CustomFooter';
+import CustomFooter from '../shared/CustomFooter';
 
 export const Reservas = () => {
   const { isAuthenticated } = useContext(UserContext);

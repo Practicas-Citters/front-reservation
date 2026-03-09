@@ -25,6 +25,12 @@ export const Router = createBrowserRouter(
             element: <Reservas />
         },
         {
+            path: ""
+        },
+        {
+
+        },
+        {
             path: "*",
             element: <Navigate to="/" />
         }

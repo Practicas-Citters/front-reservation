@@ -39,9 +39,9 @@ export const Reservas = () => {
   }
 
   useEffect(() => {
-      setSelectedSportId(getSportIdFromParams());
-      setSelectedCourt(getSelectedCourtFromParams());
-  }, [selectedSportId, selectedCourt]);
+    setSelectedSportId(getSportIdFromParams());
+    setSelectedCourt(getSelectedCourtFromParams());
+  }, [onload]);
 
   const filteredCourts = useMemo(() => {
     if (selectedSportId === 'all') return Courts;
@@ -220,7 +220,7 @@ export const Reservas = () => {
           </div>
         </aside>
       </div>
-      <CustomFooter/>
+      <CustomFooter />
     </div>
   );
 };

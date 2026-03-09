@@ -40,34 +40,44 @@ const Landing = () => {
 
         {isAuthenticated ? (
           <div className="user-menu">
-            <CustomImage
-              src="src/assets/user-default-icon.png"
-              alt="Perfil"
-              className="user-avatar"
-            />
-            <span className="user-greeting">
-              Bienvenido, <strong>{user?.username}</strong>
-            </span>
-            <Button
-              variant="outlined"
-              onClick={logout}
-              sx={{
-                borderColor: 'var(--error)',
-                color: 'var(--error)',
-                fontWeight: 700,
-                borderRadius: '12px',
-                textTransform: 'none',
-                fontFamily: 'inherit',
-                '&:hover': {
-                  borderColor: '#ff6b81',
-                  backgroundColor: 'rgba(255, 71, 87, 0.1)',
-                  transform: 'translateY(-2px)',
-                },
-                transition: 'all 0.3s ease'
-              }}
-            >
-              Cerrar Sesión
-            </Button>
+            <div className="user-trigger">
+              <CustomImage
+                src="src/assets/user-default-icon.png"
+                alt="Perfil"
+                className="user-avatar"
+              />
+              <div className="user-info">
+                <span className="user-greeting">Bienvenido,</span>
+                <span className="user-name">{user?.username}</span>
+              </div>
+              <span className="chevron-icon">▾</span>
+            </div>
+            <div className="dropdown-content">
+              <div className="dropdown-header">
+                <p>Cuenta de Usuario</p>
+              </div>
+              <ul className="dropdown-list">
+                <li>
+                  <Link to="/perfil" className="dropdown-item">
+                    <span className="item-icon">👤</span>
+                    <span>Mi Perfil</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/reservas" className="dropdown-item">
+                    <span className="item-icon">📅</span>
+                    <span>Mis Reservas</span>
+                  </Link>
+                </li>
+                <li className="dropdown-divider"></li>
+                <li>
+                  <button onClick={logout} className="dropdown-item logout-item">
+                    <span className="item-icon">➜</span>
+                    <span>Cerrar Sesión</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
         ) : (
           <div className="log-in">
@@ -121,18 +131,20 @@ const Landing = () => {
           <h1 className="hero-title">Reserva tu pista favorita en segundos.</h1>
           <p className="hero-description">¡Únete a Desportes y disfruta de la mejor experiencia de reserva de pistas deportivas!</p>
           <Link to="/reservar">
-          <Button variant="contained" sx={{ 
-            backgroundColor: 'var(--primary)',
-            fontSize: '1.2rem',
-            color: 'white', 
-            fontWeight: 700, 
-            borderRadius: '12px', 
-            textTransform: 'none', 
-            fontFamily: 'inherit', 
-            '&:hover': { 
-              backgroundColor: 'var(--primary-dark)', 
-              transform: 'translateY(-2px)', }, 
-              transition: 'all 0.3s ease' }}>Reservar ahora <span>→</span></Button>
+            <Button variant="contained" sx={{
+              backgroundColor: 'var(--primary)',
+              fontSize: '1.2rem',
+              color: 'white',
+              fontWeight: 700,
+              borderRadius: '12px',
+              textTransform: 'none',
+              fontFamily: 'inherit',
+              '&:hover': {
+                backgroundColor: 'var(--primary-dark)',
+                transform: 'translateY(-2px)',
+              },
+              transition: 'all 0.3s ease'
+            }}>Reservar ahora <span>→</span></Button>
           </Link>
         </div>
       </section>
@@ -147,19 +159,21 @@ const Landing = () => {
                   <h2>{court.name}</h2>
                   <h3>{court.description}</h3>
                   <Link to={`/reservar?courtId=${court.id}`}>
-                    <Button variant="contained" sx={{ 
+                    <Button variant="contained" sx={{
                       backgroundColor: 'var(--primary)',
                       fontSize: '1.2rem',
-                      color: 'white', 
-                      fontWeight: 700, 
+                      color: 'white',
+                      fontWeight: 700,
                       marginTop: '10px',
-                      borderRadius: '12px', 
-                      textTransform: 'none', 
-                      fontFamily: 'inherit', 
-                      '&:hover': { 
-                        backgroundColor: 'var(--primary-dark)', 
-                        transform: 'translateY(-2px)', }, 
-                        transition: 'all 0.3s ease' }}>Reservar ahora <span>→</span></Button>
+                      borderRadius: '12px',
+                      textTransform: 'none',
+                      fontFamily: 'inherit',
+                      '&:hover': {
+                        backgroundColor: 'var(--primary-dark)',
+                        transform: 'translateY(-2px)',
+                      },
+                      transition: 'all 0.3s ease'
+                    }}>Reservar ahora <span>→</span></Button>
                   </Link>
                 </div>
               ))
@@ -171,30 +185,30 @@ const Landing = () => {
         <h1 className="section-title">Tus deportes favoritos al alcance de tu mano</h1>
         <div className="sports-carousel-container">
           <button className="carousel-btn carousel-btn-prev" onClick={handlePrevSport}>←</button>
-          
+
           <div className="carousel-track">
             <div className="sport-card sport-card-prev">
               <Link to={`/reservar?sportId=${Sports[getPrevIndex()].id}`}>
-              <img src={Sports[getPrevIndex()].iconUrl} alt={Sports[getPrevIndex()].name}/>
+                <img src={Sports[getPrevIndex()].iconUrl} alt={Sports[getPrevIndex()].name} />
               </Link>
             </div>
-            
+
             <div className="sport-card sport-card-center">
               <Link to={`/reservar?sportId=${Sports[currentSportIndex].id}`}>
-              <img src={Sports[currentSportIndex].iconUrl} alt={Sports[currentSportIndex].name} />
+                <img src={Sports[currentSportIndex].iconUrl} alt={Sports[currentSportIndex].name} />
               </Link>
             </div>
-            
+
             <div className="sport-card sport-card-next">
               <Link to={`/reservar?sportId=${Sports[getNextIndex()].id}`}>
-              <img src={Sports[getNextIndex()].iconUrl} alt={Sports[getNextIndex()].name} />
+                <img src={Sports[getNextIndex()].iconUrl} alt={Sports[getNextIndex()].name} />
               </Link>
             </div>
           </div>
-          
+
           <button className="carousel-btn carousel-btn-next" onClick={handleNextSport}>→</button>
         </div>
-        
+
         <div className="carousel-dots">
           {Sports.map((_, index) => (
             <span

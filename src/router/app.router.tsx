@@ -31,7 +31,11 @@ export const Router = createBrowserRouter(
         },
         {
             path: "/reservas"
-            element: element: <PrivateRoute element={<MisReservas />} />
+            element: <PrivateRoute element={<MisReservas />} />
+        },
+        {
+            path: "/suscripcion"
+            element: <Suscripcion />
         },
         */
         {

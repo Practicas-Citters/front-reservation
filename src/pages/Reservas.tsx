@@ -9,10 +9,9 @@ import { Courts, type Court } from '../mock-data/court-mock-data';
 import { CustomHeader } from '../shared/CustomHeader';
 import { CustomTitle } from '../shared/CustomTitle';
 import { CustomSubtitle } from '../shared/CustomSubtitle';
+import CustomFooter from '../shared/CustomFooter';
 
 import '../styles/Reservas.css';
-import CustomFooter from '../shared/CustomFooter';
-import CustomFooter from '../shared/CustomFooter';
 
 export const Reservas = () => {
   const { isAuthenticated } = useContext(UserContext);

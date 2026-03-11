@@ -60,7 +60,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             phone,
             birthDate,
             username,
-            password
+            password,
+            isPremium: false
         };
 
 

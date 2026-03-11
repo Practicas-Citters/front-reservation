@@ -5,7 +5,8 @@ export interface User {
     phone: string,
     birthDate: string,
     username: string,
-    password: string
+    password: string,
+    isPremium: boolean
 }
 
 export const users: User[] =
@@ -17,7 +18,8 @@ export const users: User[] =
             phone: "600111222",
             birthDate: "1990-05-15",
             username: "alexg",
-            password: "password123"
+            password: "password123",
+            isPremium: false
         },
         {
             id: 2,
@@ -26,7 +28,8 @@ export const users: User[] =
             phone: "611222333",
             birthDate: "1988-10-22",
             username: "luciam",
-            password: "securePass789"
+            password: "securePass789",
+            isPremium: false
         },
         {
             id: 3,
@@ -35,7 +38,8 @@ export const users: User[] =
             phone: "622333444",
             birthDate: "1995-03-08",
             username: "diegor",
-            password: "mySecretPassword"
+            password: "mySecretPassword",
+            isPremium: true
         },
         {
             id: 4,
@@ -44,7 +48,8 @@ export const users: User[] =
             phone: "633444555",
             birthDate: "2000-12-01",
             username: "elenas",
-            password: "user2024!"
+            password: "user2024!",
+            isPremium: false
         },
         {
             id: 5,
@@ -53,6 +58,7 @@ export const users: User[] =
             phone: "644555666",
             birthDate: "1982-07-30",
             username: "javi_l",
-            password: "login987"
+            password: "login987",
+            isPremium: true
         }
     ];

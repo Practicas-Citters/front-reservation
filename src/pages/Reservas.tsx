@@ -3,8 +3,8 @@ import { Link } from 'react-router';
 
 import { UserContext } from '../context/user.context';
 
-import { useSports, useCourts } from '../hooks/useBooking';
-import type { Court } from '../mock-data/court-mock-data';
+import { Sports } from '../mock-data/sport-mock-data';
+import { Courts, type Court } from '../mock-data/court-mock-data';
 
 import { CustomHeader } from '../shared/CustomHeader';
 import { CustomTitle } from '../shared/CustomTitle';
@@ -16,35 +16,37 @@ import '../styles/Reservas.css';
 export const Reservas = () => {
   const { isAuthenticated } = useContext(UserContext);
 
-  const { data: Sports = [], isLoading: isLoadingSports } = useSports();
-  const { data: Courts = [], isLoading: isLoadingCourts } = useCourts();
-
   const [selectedSportId, setSelectedSportId] = useState<string | 'all'>('all');
   const [selectedCourt, setSelectedCourt] = useState<Court | null>(null);
   const [reservationDate, setReservationDate] = useState('');
   const [reservationTime, setReservationTime] = useState('');
   const [duration, setDuration] = useState(1);
 
-  useEffect(() => {
+  const getSportIdFromParams = () => {
     const params = new URLSearchParams(window.location.search);
     const sportId = params.get('sportId');
-    if (sportId) setSelectedSportId(sportId);
+    return sportId ? sportId : 'all';
+  }
 
+  const getSelectedCourtFromParams = () => {
+    const params = new URLSearchParams(window.location.search);
     const courtId = params.get('courtId');
-    if (courtId && Courts.length > 0) {
+    if (courtId) {
       const court = Courts.find(c => c.id === courtId);
-      if (court) setSelectedCourt(court);
+      return court || null;
     }
-  }, [Courts]);
+    return null;
+  }
+
+  useEffect(() => {
+    setSelectedSportId(getSportIdFromParams());
+    setSelectedCourt(getSelectedCourtFromParams());
+  }, [onload]);
 
   const filteredCourts = useMemo(() => {
     if (selectedSportId === 'all') return Courts;
     return Courts.filter(court => court.sport.id === selectedSportId);
-  }, [selectedSportId, Courts]);
-
-  if (isLoadingSports || isLoadingCourts) {
-    return <div className="loading-container">Cargando...</div>;
-  }
+  }, [selectedSportId]);
 
   const totalCost = useMemo(() => {
     if (!selectedCourt) return 0;
@@ -78,7 +80,7 @@ export const Reservas = () => {
               onClick={() => setSelectedSportId('all')}
             >
               <div className={`sport-circle-button ${selectedSportId === 'all' ? 'active' : ''}`}>
-                <img src="/icons/all-sports-icon.png" alt="All sports" />
+                <span className="all-sports-icon">🌍</span>
               </div>
               <span className="sport-name-label">Todos</span>
             </div>
@@ -183,10 +185,10 @@ export const Reservas = () => {
                   <strong>{selectedCourt.pricePerHour}€</strong>
                 </div>
 
-                {/* <div className="sidebar-info-row">
+                <div className="sidebar-info-row">
                   <span>Ubicación:</span>
-                  <strong>Pista {selectedCourt.location}</strong>
-                </div> */}
+                  <strong>Pista {selectedCourt.id}</strong>
+                </div>
 
                 <div className="sidebar-divider"></div>
 

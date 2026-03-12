@@ -7,32 +7,24 @@ import { CustomTitle } from '../shared/CustomTitle'
 import { CustomImage } from '../shared/CustomImage'
 
 import '../styles/LandingPage.css'
+import { Courts } from '../mock-data/court-mock-data'
+import { Sports } from '../mock-data/sport-mock-data'
 import CustomFooter from '../shared/CustomFooter'
-import { useSports, useCourts } from '../hooks/useBooking'
 
 const Landing = () => {
   const { isAuthenticated, user, logout } = useContext(UserContext);
   const [currentSportIndex, setCurrentSportIndex] = useState(0);
 
-  const { data: Sports = [], isLoading: isLoadingSports } = useSports();
-  const { data: Courts = [], isLoading: isLoadingCourts } = useCourts();
-
   const handlePrevSport = () => {
-    if (Sports.length === 0) return;
     setCurrentSportIndex((prev) => (prev === 0 ? Sports.length - 1 : prev - 1));
   };
 
   const handleNextSport = () => {
-    if (Sports.length === 0) return;
     setCurrentSportIndex((prev) => (prev === Sports.length - 1 ? 0 : prev + 1));
   };
 
   const getPrevIndex = () => (currentSportIndex === 0 ? Sports.length - 1 : currentSportIndex - 1);
   const getNextIndex = () => (currentSportIndex === Sports.length - 1 ? 0 : currentSportIndex + 1);
-
-  if (isLoadingSports || isLoadingCourts) {
-    return <div className="loading-container">Cargando...</div>;
-  }
 
   return (
     <div>
@@ -45,7 +37,34 @@ const Landing = () => {
             <Link to="/"><CustomTitle text="Desportes"></CustomTitle></Link>
           </div>
         </div>
-        
+
+        {
+          user?.isPremium ? 
+          (
+            <p></p>
+          ) 
+          : 
+          (
+            <div className="subscribe-button">
+              <Link to="/suscripcion">
+                <Button variant="contained" sx={{
+                  backgroundColor: 'var(--primary)',
+                  color: 'white',
+                  fontWeight: 700,
+                  borderRadius: '12px',
+                  textTransform: 'none',
+                  fontFamily: 'inherit',
+                  '&:hover': {
+                    backgroundColor: 'var(--primary-dark)',
+                    transform: 'translateY(-2px)',
+                  },
+                  transition: 'all 0.3s ease'
+                }}>Suscríbete Aquí</Button>
+              </Link>
+            </div>
+          )
+        }
+
         {isAuthenticated ? (
           <div className="user-menu">
             <div className="user-trigger">

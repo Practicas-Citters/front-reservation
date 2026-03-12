@@ -14,7 +14,7 @@ interface UserContextType {
 
     login: (email: string, password: string) => boolean;
     logout: () => void;
-    signin: (data: string) => boolean;
+    signin: (data: string) => Promise<boolean>;
     updateUser: (username: string, fullname: string, email: string, phone: string, birthDate: string) => void;
     fetchPreviousBookings: (email: string) => Promise<any[]>;
     createNewBooking: (email: string, bookingData: any) => void;
@@ -57,7 +57,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         const { fullName, email, phone, birthDate, username, password } = JSON.parse(data);
 
         const newUser: User = {
-            id: "3242342342",
             fullName,
             username,
             email,

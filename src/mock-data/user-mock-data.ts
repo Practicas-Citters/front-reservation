@@ -1,5 +1,5 @@
 export interface User {
-    id: string;
+    id?: string;
     fullName: string,
     email: string,
     phone: string,
@@ -76,4 +76,4 @@ export const users: User[] =
             password: "front123",
             isPremium: true
         }
-    ];
+    ]

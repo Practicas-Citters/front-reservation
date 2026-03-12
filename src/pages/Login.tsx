@@ -6,10 +6,8 @@ import { CustomImage } from "../shared/CustomImage"
 import { CustomInput } from "../shared/CustomInput"
 import { CustomSubtitle } from "../shared/CustomSubtitle"
 import { CustomTitle } from "../shared/CustomTitle"
-import CustomFooter from "../shared/CustomFooter"
-import { CustomHeader } from "../shared/CustomHeader"
-
 import "../styles/Login.css"
+import CustomFooter from "../shared/CustomFooter"
 
 function Login() {
 
@@ -32,7 +30,11 @@ function Login() {
 
   return (
     <>
-      <CustomHeader/>
+      <header>
+        <Link to="/inicio" className="back-link">
+          <span>←</span> Volver al Inicio
+        </Link>
+      </header>
 
       <div className="login-page-wrapper">
         <div className="login-container">

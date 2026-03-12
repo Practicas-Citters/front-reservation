@@ -1,5 +1,5 @@
 export interface User {
-    id: number;
+    id: string;
     fullName: string,
     email: string,
     phone: string,
@@ -12,7 +12,7 @@ export interface User {
 export const users: User[] =
     [
         {
-            id: 1,
+            id: "a538e938-d0ae-4390-9160-13a45bcdd07f",
             fullName: "Alex García",
             email: "alex.garcia@email.com",
             phone: "600111222",
@@ -22,7 +22,7 @@ export const users: User[] =
             isPremium: false
         },
         {
-            id: 2,
+            id: "a538e938-d0ae-4390-9160-13a45bcdd07f",
             fullName: "Lucía Martínez",
             email: "lucia.mtz@email.com",
             phone: "611222333",
@@ -32,7 +32,7 @@ export const users: User[] =
             isPremium: false
         },
         {
-            id: 3,
+            id: "a538e938-d0ae-4390-9160-13a45bcdd07f",
             fullName: "Diego Rodríguez",
             email: "diego.rod@email.com",
             phone: "622333444",
@@ -42,7 +42,7 @@ export const users: User[] =
             isPremium: true
         },
         {
-            id: 4,
+            id: "a538e938-d0ae-4390-9160-13a45bcdd07f",
             fullName: "Elena Sánchez",
             email: "elena.san@email.com",
             phone: "633444555",
@@ -52,13 +52,23 @@ export const users: User[] =
             isPremium: false
         },
         {
-            id: 5,
+            id: "a538e938-d0ae-4390-9160-13a45bcdd07f",
             fullName: "Javier López",
             email: "javier.lopez@email.com",
             phone: "644555666",
             birthDate: "1982-07-30",
             username: "javi_l",
             password: "login987",
+            isPremium: true
+        },
+        {
+            id: "a538e938-d0ae-4390-9160-13a45bcdd07f",
+            fullName: "Pedro Pruebas",
+            email: "pruebasfront@gmail.com",
+            phone: "+34578834245",
+            birthDate: "2005-03-03",
+            username: "pruebasfront",
+            password: "front123",
             isPremium: true
         }
     ];

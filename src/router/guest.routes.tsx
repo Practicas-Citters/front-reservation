@@ -7,7 +7,7 @@ interface Props
     element: React.JSX.Element
  }
 
- export const PrivateRoute = ({ element }: Props) => 
+ export const GuestRoute = ({ element }: Props) => 
     {
         const { isAuthenticated } = useContext(UserContext);
         

@@ -38,33 +38,6 @@ const Landing = () => {
           </div>
         </div>
 
-        {
-          user?.isPremium ? 
-          (
-            <p></p>
-          ) 
-          : 
-          (
-            <div className="subscribe-button">
-              <Link to="/suscripcion">
-                <Button variant="contained" sx={{
-                  backgroundColor: 'var(--primary)',
-                  color: 'white',
-                  fontWeight: 700,
-                  borderRadius: '12px',
-                  textTransform: 'none',
-                  fontFamily: 'inherit',
-                  '&:hover': {
-                    backgroundColor: 'var(--primary-dark)',
-                    transform: 'translateY(-2px)',
-                  },
-                  transition: 'all 0.3s ease'
-                }}>Suscríbete Aquí</Button>
-              </Link>
-            </div>
-          )
-        }
-
         {isAuthenticated ? (
           <div className="user-menu">
             <div className="user-trigger">

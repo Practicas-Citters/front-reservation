@@ -6,7 +6,8 @@ export interface User {
     birthDate: string,
     username: string,
     password: string,
-    isPremium: boolean
+    isPremium?: boolean,
+    points?: number
 }
 
 export const users: User[] =
@@ -19,7 +20,8 @@ export const users: User[] =
             birthDate: "1990-05-15",
             username: "alexg",
             password: "password123",
-            isPremium: false
+            isPremium: false,
+            points: 0
         },
         {
             id: "a538e938-d0ae-4390-9160-13a45bcdd07f",
@@ -29,7 +31,8 @@ export const users: User[] =
             birthDate: "1988-10-22",
             username: "luciam",
             password: "securePass789",
-            isPremium: false
+            isPremium: false,
+            points: 0
         },
         {
             id: "a538e938-d0ae-4390-9160-13a45bcdd07f",
@@ -39,7 +42,8 @@ export const users: User[] =
             birthDate: "1995-03-08",
             username: "diegor",
             password: "mySecretPassword",
-            isPremium: true
+            isPremium: true,
+            points: 0
         },
         {
             id: "a538e938-d0ae-4390-9160-13a45bcdd07f",
@@ -49,7 +53,8 @@ export const users: User[] =
             birthDate: "2000-12-01",
             username: "elenas",
             password: "user2024!",
-            isPremium: false
+            isPremium: false,
+            points: 0
         },
         {
             id: "a538e938-d0ae-4390-9160-13a45bcdd07f",

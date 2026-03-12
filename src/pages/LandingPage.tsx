@@ -10,7 +10,7 @@ import '../styles/LandingPage.css'
 import CustomFooter from '../shared/CustomFooter'
 import { useSports, useCourts } from '../hooks/useBooking'
 
-const Landing = () => {
+const LandingPage = () => {
   const { isAuthenticated, user, logout } = useContext(UserContext);
   const [currentSportIndex, setCurrentSportIndex] = useState(0);
 
@@ -45,7 +45,7 @@ const Landing = () => {
             <Link to="/"><CustomTitle text="Desportes"></CustomTitle></Link>
           </div>
         </div>
-        
+
         {isAuthenticated ? (
           <div className="user-menu">
             <div className="user-trigger">
@@ -251,4 +251,4 @@ const Landing = () => {
   )
 }
 
-export default Landing
+export default LandingPage;

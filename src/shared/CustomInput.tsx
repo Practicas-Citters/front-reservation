@@ -9,6 +9,7 @@ interface Props {
   inputName: string,
   isRequired: boolean,
   value: string | undefined,
+  disabled?: boolean,
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
   className?: string,
   labelLink?: {
@@ -36,7 +37,8 @@ export const CustomInput = (input: Props) => {
         onChange={input.onChange}
         placeholder={input.placeholder}
         required={input.isRequired}
-        className={input.className} />
+        className={input.className}
+        disabled={input.disabled} />
     </div>
   )
 }

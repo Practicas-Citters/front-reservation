@@ -14,7 +14,7 @@ import CustomFooter from '../shared/CustomFooter';
 import '../styles/Reservas.css';
 
 export const Reservas = () => {
-  const { isAuthenticated } = useContext(UserContext);
+  const { isAuthenticated, createNewBooking, user } = useContext(UserContext);
 
   const { data: Sports = [], isLoading: isLoadingSports } = useSports();
   const { data: Courts = [], isLoading: isLoadingCourts } = useCourts();
@@ -194,9 +194,16 @@ export const Reservas = () => {
                   <span>Precio Total: </span>
                   <span className="total-amount">{totalCost}€</span>
                 </div>
-                {isAuthenticated ?
+                {isAuthenticated && user ?
                   (
-                    <button className="pay-button" disabled={!isFormValid}>
+                    <button className="pay-button" disabled={!isFormValid} onClick={() => createNewBooking(user.email, {
+                      courtId: selectedCourt.id,
+                      date: reservationDate,
+                      startTime: reservationTime,
+                      endTime: reservationTime,
+                      numPeople: selectedCourt.capacity,
+                      totalPrice: totalCost
+                    })}>
                       Proceder al Pago
                     </button>
                   )

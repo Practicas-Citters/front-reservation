@@ -11,7 +11,7 @@ interface Props
     {
         const { isAuthenticated } = useContext(UserContext);
         
-        if (!isAuthenticated)
+        if (isAuthenticated)
         {
             return element;
         }

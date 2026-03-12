@@ -24,7 +24,7 @@ function Registro() {
 
   const navigate = useNavigate();
 
-  const handleSignInForm = async(e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignInForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setisLoading(true);
     const data = {
@@ -37,10 +37,8 @@ function Registro() {
     };
 
     if (data.fullName && data.email && data.phone && data.birthDate && data.username && data.password) {
-      const result = await signin(JSON.stringify(data));
-      if (result) {
-        navigate("/login");
-      }
+      signin(JSON.stringify(data));
+      navigate("/login");
     }
 
     setisLoading(false);

@@ -14,7 +14,7 @@ interface UserContextType {
 
     login: (email: string, password: string) => boolean;
     logout: () => void;
-    signin: (data: string) => Promise<boolean>;
+    signin: (data: string) => boolean;
 }
 
 
@@ -50,31 +50,23 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         localStorage.removeItem("isAuthenticated");
     }
 
-    const handleSignIn = async (data: string) => {
+    const handleSignIn = (data: string) => {
         const { fullName, email, phone, birthDate, username, password } = JSON.parse(data);
 
         const newUser: User = {
+            id: users.length + 1,
             fullName,
-            username,
             email,
-            password,
             phone,
-            birthDate
+            birthDate,
+            username,
+            password,
+            isPremium: false
         };
 
-        const response = await fetch("/api/user", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newUser),
-        });
 
-        if (!response.ok) {
-            console.log("Error al registrar el usuario.");
-            toast.error("Error al registrar el usuario.");
-            return false;
-        }
+        //PONER AQUI REGISTRO DE newUser CON API
+
 
         toast.success("Usuario registrado correctamente.");
         return true;

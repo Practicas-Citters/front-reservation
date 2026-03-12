@@ -1,0 +1,268 @@
+.profile-page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.profile-page-wrapper {
+  padding: 50px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 50px;
+  width: 100%;
+  flex: 1;
+}
+
+.profile-container {
+  display: flex;
+  gap: 30px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  overflow: hidden;
+  min-height: 600px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  min-height: 706px;
+}
+
+/* Sidebar Styling */
+.profile-sidebar {
+  width: 280px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 40px 20px;
+  border-right: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.profile-pic-container {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  border: 3px solid var(--primary);
+  overflow: hidden;
+  background: var(--input-bg);
+}
+
+.profile-pic-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sidebar-user-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.sidebar-user-email {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 5px 0 0;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar-nav-item {
+  background: transparent;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 12px;
+  color: var(--text-main);
+  text-align: left;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-nav-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateX(5px);
+}
+
+.sidebar-nav-item.active {
+  background: var(--primary);
+  color: #000;
+  font-weight: 700;
+}
+
+.nav-icon {
+  font-size: 1.2rem;
+}
+
+/* Content Area Styling */
+.profile-content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+.section-header {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin: 0 0 10px;
+  text-align: left;
+  color: var(--text-main);
+}
+
+.section-subtitle {
+  color: var(--text-main);
+  margin: 0;
+}
+
+/* Forms and Lists */
+.profile-form {
+  display: column;
+  gap: 20px;
+}
+
+.profile-input {
+  padding: 10px;
+  border-radius: 10px;
+  background: var(--input-bg);
+  color: var(--text-main);
+  border: 1px solid var(--glass-border);
+  width: 100%;
+}
+
+.form-full-width {
+  grid-column: span 2;
+}
+
+.forgot-password-link {
+  font-size: 13px;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 400;
+  transition: opacity 0.2s;
+}
+
+.forgot-password-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.profile-form button[type="submit"] {
+  grid-column: span 2;
+  margin-top: 20px;
+  padding: 15px;
+  background: var(--primary);
+  border: none;
+  border-radius: 12px;
+  color: #000;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.profile-form button[type="submit"]:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+}
+
+/* Mock Table for Reservations */
+.reservations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.reservation-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  padding: 20px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.reservation-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+}
+
+.reservation-info h4 {
+  margin: 0 0 5px;
+  font-size: 1.1rem;
+}
+
+.reservation-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.reservation-status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.status-completed {
+  background: rgba(46, 204, 113, 0.2);
+  color: var(--primary);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .profile-container {
+    flex-direction: column;
+  }
+
+  .profile-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--glass-border);
+    padding: 20px;
+  }
+
+  .sidebar-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+
+  .sidebar-nav-item {
+    white-space: nowrap;
+  }
+
+  .profile-form {
+    grid-template-columns: 1fr;
+  }
+
+  .form-full-width {
+    grid-column: span 1;
+  }
+
+  .profile-form button[type="submit"] {
+    grid-column: span 1;
+  }
+}

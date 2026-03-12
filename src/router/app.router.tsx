@@ -1,10 +1,11 @@
-import React from 'react'
 import { createBrowserRouter, Navigate } from 'react-router'
-import Registro from '../pages/Registro';
+import Registro from '../pages/Register';
 import Login from '../pages/Login';
 import LandingPage from '../pages/LandingPage';
-import { PrivateRoute } from './private.routes';
 import { Reservas } from '../pages/Reservas';
+import { UserProfile } from '../pages/UserProfile';
+import { GuestRoute } from './guest.routes';
+import { PrivateRoute } from './private.route';
 
 export const Router = createBrowserRouter(
     [
@@ -14,22 +15,22 @@ export const Router = createBrowserRouter(
         },
         {
             path: "/registro",
-            element: <PrivateRoute element={<Registro />} />
+            element: <GuestRoute element={<Registro />} />
         },
         {
             path: "/login",
-            element: <PrivateRoute element={<Login />} />
+            element: <GuestRoute element={<Login />} />
         },
         {
             path: "/reservar",
             element: <Reservas />
         },
-        /*
         {
-            path: "/perfil"
-            element: <PrivateRoute element={<Perfil />} />
+            path: "/perfil",
+            element: <PrivateRoute element={<UserProfile />} />
         },
-        {
+        /*
+            {
             path: "/reservas"
             element: <PrivateRoute element={<MisReservas />} />
         },

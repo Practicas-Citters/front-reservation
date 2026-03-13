@@ -1,0 +1,115 @@
+.terms-and-conds-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: var(--bg-gradient);
+    margin-top: 70px;
+    padding: 2rem;
+}
+
+.terms-and-conds-container h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--primary), #ffffff);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+
+.terms-and-conds-container p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-main);
+    text-align: center;
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.last-update {
+    text-decoration-line: underline;
+}
+
+.highlighted-sections {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 25px auto;
+    width: 100%;
+}
+
+.highlighted-section-card {
+    display: flex;
+    flex-direction: column;
+    margin: 15px;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(5px);
+    flex: 1;
+}
+
+.highlighted-section-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-main);
+    text-align: center;
+}
+
+.highlighted-section-card:hover {
+    transform: scale(1.05);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    background-color: var(--primary-dark);
+    color: white;
+}
+
+.terms-and-conds-container h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--text-main);
+    text-align: center;
+    text-decoration-line: underline;
+}
+
+.terms-and-conds {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    margin: 25px auto;
+    max-width: 1000px;
+    width: 100%;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+}
+
+.terms-and-conds h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+    text-align: center;
+}
+
+.terms-text-container {
+    margin: -10px 10px 10px 10px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: none;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.2);
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

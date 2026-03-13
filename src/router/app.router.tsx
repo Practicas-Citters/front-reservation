@@ -6,6 +6,7 @@ import { Reservas } from '../pages/Reservas';
 import { GuestRoute } from './guest.routes';
 import { UserProfile } from '../pages/UserProfile';
 import Registro from '../pages/Register';
+import { ContactUs } from '../pages/ContactUs';
 
 export const Router = createBrowserRouter(
     [
@@ -29,15 +30,10 @@ export const Router = createBrowserRouter(
             path: "/perfil",
             element: <PrivateRoute element={<UserProfile />} />
         },
-        // {
-        //     path: "/reservas",
-        //     element: <PrivateRoute element={<MisReservas />} />
-        // },
-        // {
-        //     path: "/suscripcion"
-        //     element: <Suscripcion />
-        // },
-        
+        {
+            path: "/contacto",
+            element: <ContactUs />
+        },
         {
             path: "*",
             element: <Navigate to="/" />

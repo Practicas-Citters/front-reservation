@@ -71,12 +71,6 @@ const LandingPage = () => {
                     <span>Mi Perfil</span>
                   </Link>
                 </li>
-                <li>
-                  <Link to="/reservas" className="dropdown-item">
-                    <span className="item-icon">📅</span>
-                    <span>Mis Reservas</span>
-                  </Link>
-                </li>
                 <li className="dropdown-divider"></li>
                 <li>
                   <button onClick={logout} className="dropdown-item logout-item">

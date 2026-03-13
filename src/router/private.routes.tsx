@@ -9,8 +9,12 @@ interface Props
 
  export const PrivateRoute = ({ element }: Props) => 
     {
-        const { isAuthenticated } = useContext(UserContext);
+        const { isAuthenticated, isLoading } = useContext(UserContext);
         
+        if (isLoading) {
+            return null; // O un spinner de carga
+        }
+
         if (isAuthenticated)
         {
             return element;

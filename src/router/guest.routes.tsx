@@ -9,8 +9,12 @@ interface Props
 
  export const GuestRoute = ({ element }: Props) => 
     {
-        const { isAuthenticated } = useContext(UserContext);
+        const { isAuthenticated, isLoading } = useContext(UserContext);
         
+        if (isLoading) {
+            return null;
+        }
+
         if (!isAuthenticated)
         {
             return element;

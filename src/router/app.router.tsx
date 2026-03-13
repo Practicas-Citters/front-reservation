@@ -7,6 +7,7 @@ import { GuestRoute } from './guest.routes';
 import { UserProfile } from '../pages/UserProfile';
 import Registro from '../pages/Register';
 import { ContactUs } from '../pages/ContactUs';
+import { TermsandConds } from '../pages/TermsAndConds';
 
 export const Router = createBrowserRouter(
     [
@@ -33,6 +34,10 @@ export const Router = createBrowserRouter(
         {
             path: "/contacto",
             element: <ContactUs />
+        },
+        {
+            path: "/terminos",
+            element: <TermsandConds />
         },
         {
             path: "*",

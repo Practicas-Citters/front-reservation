@@ -42,14 +42,14 @@ export const Reservas = () => {
     return Courts.filter(court => court.sport.id === selectedSportId);
   }, [selectedSportId, Courts]);
 
-  if (isLoadingSports || isLoadingCourts) {
-    return <div className="loading-container">Cargando...</div>;
-  }
-
   const totalCost = useMemo(() => {
     if (!selectedCourt) return 0;
     return selectedCourt.pricePerHour * duration;
   }, [selectedCourt, duration]);
+
+  if (isLoadingSports || isLoadingCourts) {
+    return <div className="loading-container">Cargando...</div>;
+  }
 
   const handleSelectCourt = (court: Court) => {
     setSelectedCourt(court);

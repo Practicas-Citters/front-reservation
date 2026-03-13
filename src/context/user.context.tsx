@@ -9,6 +9,7 @@ interface UserProviderProps {
 
 interface UserContextType {
     isAuthenticated: boolean;
+    isLoading: boolean;
 
     user: User | null;
 
@@ -27,6 +28,7 @@ export const UserContext = createContext({} as UserContextType);
 export const UserProvider = ({ children }: UserProviderProps) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState<User | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     const handleLogin = (email: string, password: string) => {
         const user = users.find(user => user.email === email && user.password === password);
@@ -151,11 +153,13 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             const parsedUser = JSON.parse(storedUser);
             handleLogin(parsedUser.email, parsedUser.password);
         }
+        setIsLoading(false);
     }, [])
 
     return (
         <UserContext value={{
             isAuthenticated,
+            isLoading,
             user,
             login: handleLogin,
             logout: handleLogout,

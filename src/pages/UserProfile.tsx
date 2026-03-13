@@ -20,6 +20,18 @@ export const UserProfile = () => {
     
 
     useEffect(() => {
+        if (user) {
+            setFormData({
+                username: user.username || '',
+                name: user.fullName || '',
+                email: user.email || '',
+                phone: user.phone || '',
+                birthDate: user.birthDate || ''
+            });
+        }
+    }, [user]);
+
+    useEffect(() => {
         if (activeTab === 'reservas' && user?.email) {
             fetchPreviousBookings(user.email).then(data => setBookings(data));
         }

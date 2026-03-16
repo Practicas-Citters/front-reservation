@@ -9,7 +9,7 @@ import { CustomTitle } from "../shared/CustomTitle"
 import "../styles/Registro.css"
 import CustomFooter from "../shared/CustomFooter"
 
-function Registro() {
+function SignIn() {
 
   const { signin } = useContext(UserContext);
 
@@ -155,4 +155,4 @@ function Registro() {
   )
 }
 
-export default Registro
+export default SignIn

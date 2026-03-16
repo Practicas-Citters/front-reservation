@@ -5,9 +5,10 @@ import { PrivateRoute } from './private.routes';
 import { Reservas } from '../pages/Reservas';
 import { GuestRoute } from './guest.routes';
 import { UserProfile } from '../pages/UserProfile';
-import Registro from '../pages/Register';
 import { ContactUs } from '../pages/ContactUs';
 import { TermsandConds } from '../pages/TermsAndConds';
+import SignIn from '../pages/Register';
+import { PrivacyPolicy } from '../pages/PrivacyPolicy';
 
 export const Router = createBrowserRouter(
     [
@@ -17,7 +18,7 @@ export const Router = createBrowserRouter(
         },
         {
             path: "/registro",
-            element: <GuestRoute element={<Registro />} />
+            element: <GuestRoute element={<SignIn />} />
         },
         {
             path: "/login",
@@ -38,6 +39,10 @@ export const Router = createBrowserRouter(
         {
             path: "/terminos",
             element: <TermsandConds />
+        },
+        {
+            path: "/politica-privacidad",
+            element: <PrivacyPolicy />
         },
         {
             path: "*",

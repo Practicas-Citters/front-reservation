@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { CustomHeader } from '../shared/CustomHeader'
 import CustomFooter from '../shared/CustomFooter'
 import { Link } from 'react-router'

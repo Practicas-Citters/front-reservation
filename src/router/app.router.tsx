@@ -56,6 +56,10 @@ export const Router = createBrowserRouter(
                     path: "/politica-privacidad",
                     element: <PrivacyPolicy />
                 },
+                // {
+                //     path:"/info-empresas"
+                //     element: <CompanyInfo/>
+                // },
                 {
                     path: "*",
                     element: <Navigate to="/" />

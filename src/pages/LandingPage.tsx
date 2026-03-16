@@ -46,6 +46,41 @@ const LandingPage = () => {
           </div>
         </div>
 
+        <div className="header-right">
+
+        <div className="company-section-menu">
+            <div className="company-section-trigger">
+              <div className="company-section-title">
+                <span>Para Empresas</span>
+              </div>
+              <span className="chevron-icon">▾</span>
+            </div>
+            <div className="dropdown-content">
+              <ul className="dropdown-list">
+                <li>
+                  <Link to="/info-empresas" className="dropdown-item">
+                    <span>Información para Empresas</span>
+                  </Link>
+                </li>
+                 <li>
+                  {
+                    isAuthenticated ? 
+                    (
+                      <span></span>
+                    ) 
+                    : 
+                    (
+                      <Link to="/login" className="dropdown-item">
+                        <span>Acceso a Empresas</span>
+                      </Link>
+                    )
+                  }
+                </li>
+              </ul>
+            </div>
+          </div>
+        
+
         {isAuthenticated ? (
           <div className="user-menu">
             <div className="user-trigger">
@@ -126,6 +161,7 @@ const LandingPage = () => {
             </Link>
           </div>
         )}
+      </div>
       </header>
       <section className="hero-section">
         <div className="hero-background"></div>

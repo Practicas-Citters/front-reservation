@@ -13,6 +13,11 @@ header {
     align-items: center;
 }
 
+.header-right
+{
+    display: flex;
+}
+
 .logo-title {
     display: flex;
     align-items: center;
@@ -306,7 +311,6 @@ header h2 {
     margin: 0;
 }
 
-/* Sophisticated User Menu */
 .user-menu {
     position: relative;
 }
@@ -399,7 +403,6 @@ header h2 {
     transform: translateY(0);
 }
 
-/* Pseudo-element to bridge the gap for hover */
 .dropdown-content::before {
     content: '';
     position: absolute;
@@ -472,4 +475,40 @@ header h2 {
 .logout-item:hover {
     background: rgba(255, 71, 87, 0.1);
     color: var(--error);
+}
+
+.company-section-menu {
+    margin-right: 50px;
+    position: relative;
+}
+
+.company-section-trigger {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 20px 15px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.company-section-trigger:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--primary);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.company-section-title
+{
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.company-section-menu:hover .dropdown-content {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
 }

@@ -30,7 +30,7 @@ const CustomFooter = () => {
             <div className="footer-links">
                 <Link className="footer-link" to="/">Inicio</Link>
                 <Link className="footer-link" to="/terminos">Términos y Condiciones</Link>
-                <Link className="footer-link" to="/privacidad">Política de Privacidad</Link>
+                <Link className="footer-link" to="/politica-privacidad">Política de Privacidad</Link>
                 <Link className="footer-link" to="/faq">FAQ</Link>
                 <Link className="footer-link" to="/contacto">Contáctanos</Link>
             </div>

@@ -99,6 +99,30 @@ export const CompanyInfo = () => {
                                 <p>Excelente servicio, recomiendo a todos.</p>
                             </div>
                         </div>
+                        <div className="user-review-card">
+                            <div className="user-review-card-header">
+                                <img src="../assets/user-default-icon.png" alt="Usuario 1" />
+                                <div className="user-review-card-header-info">
+                                    <h2>Usuario 1</h2>
+                                    <h3>5.0</h3>
+                                </div>
+                            </div>
+                            <div className="user-review-card-body">
+                                <p>Excelente servicio, recomiendo a todos.</p>
+                            </div>
+                        </div>
+                        <div className="user-review-card">
+                            <div className="user-review-card-header">
+                                <img src="" alt="Usuario 1" />
+                                <div className="user-review-card-header-info">
+                                    <h2>Usuario 1</h2>
+                                    <h3>5.0</h3>
+                                </div>
+                            </div>
+                            <div className="user-review-card-body">
+                                <p>Excelente servicio, recomiendo a todos.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

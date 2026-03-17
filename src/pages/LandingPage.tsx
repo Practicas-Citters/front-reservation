@@ -64,9 +64,16 @@ const LandingPage = () => {
                 </li>
                  <li>
                   {
-                    isAuthenticated ? 
+                    isAuthenticated ?
                     (
-                      <span></span>
+                      user?.role === 'manager' ?
+                      (
+                        <Link to="/dashboard" className="dropdown-item">
+                          <span>Panel de Control</span>
+                        </Link>
+                      ) : (
+                        <span></span>
+                      )
                     ) 
                     : 
                     (

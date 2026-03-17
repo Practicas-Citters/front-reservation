@@ -51,7 +51,7 @@ export const UserProfile = () => {
         <div className="profile-page-container">
             <CustomHeader />
             <main className="profile-page-wrapper">
-                <h1 className="profile-title">Datos de Usuario</h1>
+                <h1 className="profile-title">Mi Perfil</h1>
                 <div className="profile-container">
                     <aside className="profile-sidebar">
                         <div className="sidebar-header">
@@ -75,7 +75,7 @@ export const UserProfile = () => {
                                 onClick={() => setActiveTab('reservas')}
                             >
                                 <span className="nav-icon">📅</span>
-                                <span>Reservas Previas</span>
+                                <span>Mis Reservas</span>
                             </button>
                             <button 
                                 className={`sidebar-nav-item ${activeTab === 'pagos' ? 'active' : ''}`}

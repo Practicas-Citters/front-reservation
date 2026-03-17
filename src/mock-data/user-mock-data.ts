@@ -7,6 +7,7 @@ export interface User {
     username: string,
     password: string,
     isPremium?: boolean,
+    role?: string,
     points?: number
 }
 
@@ -73,6 +74,7 @@ export const users: User[] =
             phone: "+34578834245",
             birthDate: "2005-03-03",
             username: "pruebasfront",
+            role: "manager",
             password: "front123",
             isPremium: true
         }

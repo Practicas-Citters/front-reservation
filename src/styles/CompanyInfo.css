@@ -104,8 +104,128 @@
     transition: all 0.3s ease;
 }
 
+.user-review-card:hover
+{
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
 .user-review-card-header
 {
     display: flex;
-    gap: 15px;
+    gap: 25px;
+}
+
+.user-review-card-header img
+{
+    height: 70px;
+    width: 70px;
+    border: 2px solid var(--primary);
+    border-radius: 50px;
+    padding: 5px;
+}
+
+.user-review-card-header-info
+{
+    line-height: 10px;
+}
+
+.user-review-rating
+{
+    color: var(--primary);
+    text-align: left;
+    font-size: 25px;
+}
+
+.user-review-message
+{
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--text-main);
+    text-align: justify;
+}
+
+.contact-us-form
+{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+.contact-us-form input
+{
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.contact-us-form input:focus
+{
+    outline: 2px solid var(--primary);
+}
+
+.contact-us-form textarea
+{
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.contact-us-form textarea:focus
+{
+    outline: 2px solid var(--primary);
+}
+
+.phone-container
+{
+    display: flex;
+    gap: 10px;
+}
+
+.phone-container select
+{
+    width: 20%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.company-info-form
+{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+.company-info-form-row
+{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.company-info-form-item
+{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
 }

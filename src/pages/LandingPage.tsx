@@ -64,9 +64,16 @@ const LandingPage = () => {
                 </li>
                  <li>
                   {
-                    isAuthenticated ? 
+                    isAuthenticated ?
                     (
-                      <span></span>
+                      user?.role === 'manager' ?
+                      (
+                        <Link to="/dashboard" className="dropdown-item">
+                          <span>Panel de Control</span>
+                        </Link>
+                      ) : (
+                        <span></span>
+                      )
                     ) 
                     : 
                     (
@@ -188,7 +195,7 @@ const LandingPage = () => {
       </section>
       <section>
         <div className="popular-courts">
-          <h1 className="section-title">Las pistas más populares</h1>
+          <h1 className="section-title">Pistas Destacadas</h1>
           <div className="courts-grid">
             {
               Courts.slice(0, 3).map(court => (

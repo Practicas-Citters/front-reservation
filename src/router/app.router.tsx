@@ -9,6 +9,7 @@ import { ContactUs } from '../pages/ContactUs';
 import { TermsandConds } from '../pages/TermsAndConds';
 import SignIn from '../pages/Register';
 import { PrivacyPolicy } from '../pages/PrivacyPolicy';
+import { CompanyInfo } from '../pages/CompanyInfo';
 
 const RootLayout = () => {
     return (
@@ -56,10 +57,10 @@ export const Router = createBrowserRouter(
                     path: "/politica-privacidad",
                     element: <PrivacyPolicy />
                 },
-                // {
-                //     path:"/info-empresas"
-                //     element: <CompanyInfo/>
-                // },
+                {
+                    path:"/info-empresas",
+                    element: <CompanyInfo/>
+                },
                 {
                     path: "*",
                     element: <Navigate to="/" />

@@ -244,18 +244,53 @@
     flex: 1;
 }
 
+.reserva-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
 .reserva-name {
     font-size: 20px;
     font-weight: 700;
-    margin: 0 0 8px 0;
+    margin: 0;
     color: var(--text-main);
+}
+
+.favorite-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+    padding: 0;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.favorite-button:hover {
+    transform: scale(1.1);
+    color: #ffd700;
+}
+
+.favorite-button.active {
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
 .reserva-description {
     font-size: 14px;
     color: var(--text-muted);
-    margin-bottom: 20px;
-    line-height: 1.6;
+    flex: 1;
+}
+
+.reserva-location {
+    font-size: 14px;
+    color: var(--text-muted);
     flex: 1;
 }
 

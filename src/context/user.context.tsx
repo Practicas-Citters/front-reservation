@@ -145,6 +145,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             });
     }
 
+    //AÑADIR CONEXIONES A LA API PARA FETCHEAR PISTAS FAVORITAS Y AÑADIR PISTAS FAVORITAS
+    
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         const storedIsAuthenticated = localStorage.getItem("isAuthenticated");

@@ -12,12 +12,15 @@ import { CustomSubtitle } from '../shared/CustomSubtitle';
 import CustomFooter from '../shared/CustomFooter';
 
 import '../styles/Reservas.css';
+import { Button } from '@mui/material';
 
 export const Reservas = () => {
   const { isAuthenticated, createNewBooking, user } = useContext(UserContext);
 
   const { data: Sports = [], isLoading: isLoadingSports } = useSports();
   const { data: Courts = [], isLoading: isLoadingCourts } = useCourts();
+
+  const [location, setLocation] = useState('');
 
   const [selectedSportId, setSelectedSportId] = useState<string | 'all'>('all');
   const [selectedCourt, setSelectedCourt] = useState<Court | null>(null);
@@ -27,6 +30,9 @@ export const Reservas = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    const location = params.get('location');
+    if (location) setLocation(location.trimEnd());
+
     const sportId = params.get('sportId');
     if (sportId) setSelectedSportId(sportId);
 
@@ -38,9 +44,18 @@ export const Reservas = () => {
   }, [Courts]);
 
   const filteredCourts = useMemo(() => {
-    if (selectedSportId === 'all') return Courts;
-    return Courts.filter(court => court.sport.id === selectedSportId);
-  }, [selectedSportId, Courts]);
+    let filtered = Courts;
+
+    if (selectedSportId !== 'all') {
+      filtered = filtered.filter(court => court.sport.id === selectedSportId);
+    }
+
+    if (location !== '') {
+      filtered = filtered.filter(court => court.location.toLowerCase().includes(location.toLowerCase()));
+    }
+
+    return filtered;
+  }, [selectedSportId, Courts, location]);
 
   const totalCost = useMemo(() => {
     if (!selectedCourt) return 0;
@@ -71,7 +86,6 @@ export const Reservas = () => {
             <CustomSubtitle text="Busca, selecciona y reserva de forma rápida" className="reservas-subtitle" />
           </div>
 
-          {/* Selector de deportes */}
           <div className="sport-selector-container">
             <div
               className="sport-selection-item"
@@ -95,29 +109,44 @@ export const Reservas = () => {
                 <span className="sport-name-label">{sport.name}</span>
               </div>
             ))}
+            <div className="search-bar-container">
+              <span>⚲</span>
+              <div className="search-bar">
+                <input type="text" 
+                placeholder="Introduce tu ubicación aquí..." 
+                value={location} 
+                onChange={(e) => setLocation(e.target.value.trimStart())} />
+              </div>
+            </div>
           </div>
 
           <div className="reservas-flex-list">
-            {filteredCourts.map((court) => (
-              <div
-                key={court.id}
-                className={`reserva-card ${selectedCourt?.id === court.id ? 'active' : ''}`}
-                onClick={() => handleSelectCourt(court)}
-              >
-                <img src={court.image} alt={court.name} className="reserva-image" />
-                <div className="reserva-info">
-                  <h3 className="reserva-name">{court.name}</h3>
-                  <p className="reserva-description">{court.description}</p>
-                  <div className="reserva-details">
-                    <span className="reserva-price">{court.pricePerHour}€/h</span>
-                    <span className="reserva-capacity">👤 {court.capacity}</span>
+            {filteredCourts.length > 0 ? (
+              filteredCourts.map((court) => (
+                <div
+                  key={court.id}
+                  className={`reserva-card ${selectedCourt?.id === court.id ? 'active' : ''}`}
+                  onClick={() => handleSelectCourt(court)}
+                >
+                  <img src={court.image} alt={court.name} className="reserva-image" />
+                  <div className="reserva-info">
+                    <h3 className="reserva-name">{court.name}</h3>
+                    <p className="reserva-description">{court.description}</p>
+                    <div className="reserva-details">
+                      <span className="reserva-price">{court.pricePerHour}€/h</span>
+                      <span className="reserva-capacity">👤 {court.capacity}</span>
+                    </div>
+                    <button className="reserva-selection-button">
+                      {selectedCourt?.id === court.id ? 'Seleccionada' : 'Seleccionar'}
+                    </button>
                   </div>
-                  <button className="reserva-selection-button">
-                    {selectedCourt?.id === court.id ? 'Seleccionada' : 'Seleccionar'}
-                  </button>
                 </div>
+              ))
+            ) : (
+              <div className="no-results-message">
+                <h3>Lo sentimos. No se han encontrado pistas en esta ubicación.</h3>
               </div>
-            ))}
+            )}
           </div>
         </main>
 

@@ -10,7 +10,8 @@ export interface Court {
     pricePerHour: number,
     isAvailable: boolean,
     sport: Sport,
-    user: User
+    user: User,
+    location: string
 }
 
 // export const Courts: Court[] =

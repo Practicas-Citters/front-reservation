@@ -16,6 +16,7 @@ const LandingPage = () => {
 
   const { data: Sports = [], isLoading: isLoadingSports } = useSports();
   const { data: Courts = [], isLoading: isLoadingCourts } = useCourts();
+  const [location, setLocation] = useState('');
 
   const handlePrevSport = () => {
     if (Sports.length === 0) return;
@@ -173,24 +174,39 @@ const LandingPage = () => {
       <section className="hero-section">
         <div className="hero-background"></div>
         <div className="hero-content">
-          <h1 className="hero-title">Reserva tu pista favorita en segundos.</h1>
-          <p className="hero-description">¡Únete a Desportes y disfruta de la mejor experiencia de reserva de pistas deportivas!</p>
-          <Link to="/reservar">
-            <Button variant="contained" sx={{
-              backgroundColor: 'var(--primary)',
-              fontSize: '1.2rem',
-              color: 'white',
-              fontWeight: 700,
-              borderRadius: '12px',
-              textTransform: 'none',
-              fontFamily: 'inherit',
-              '&:hover': {
-                backgroundColor: 'var(--primary-dark)',
-                transform: 'translateY(-2px)',
-              },
-              transition: 'all 0.3s ease'
-            }}>Reservar ahora <span>→</span></Button>
-          </Link>
+            <h1 className="hero-title">Reserva tu pista favorita en segundos.</h1>
+            <p className="hero-description">¡Únete a Desportes y disfruta de la mejor experiencia de reserva de pistas deportivas!</p>
+            <Link to="/reservar">
+              <Button variant="contained" sx={{
+                backgroundColor: 'var(--primary)',
+                fontSize: '1.2rem',
+                color: 'white',
+                fontWeight: 700,
+                borderRadius: '12px',
+                textTransform: 'none',
+                fontFamily: 'inherit',
+                '&:hover': {
+                  backgroundColor: 'var(--primary-dark)',
+                  transform: 'translateY(-2px)',
+                },
+                transition: 'all 0.3s ease'
+              }}>Reservar ahora <span>→</span></Button>
+            </Link>
+        </div>
+        <div className="hero-search">
+          <p className="hero-description">¿Buscas pistas cerca de tí? Introduce tu ubicación y encuentra la pista perfecta para ti.</p>
+          <div className="search-bar">
+            <input type="text" placeholder="Introduce tu ubicación aquí..." value={location} onChange={(e) => setLocation(e.target.value.trimStart())} />
+            {location.length > 0 ? (
+              <Link to={`/reservar?location=${location}`}>
+                <Button variant="contained">Buscar</Button>
+              </Link>
+            ) : (
+              <Link to={`/reservar`}>
+                <Button variant="contained">Buscar</Button>
+              </Link>
+            )}
+          </div>
         </div>
       </section>
       <section>

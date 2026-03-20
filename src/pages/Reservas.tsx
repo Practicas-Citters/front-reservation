@@ -12,10 +12,14 @@ import { CustomSubtitle } from '../shared/CustomSubtitle';
 import CustomFooter from '../shared/CustomFooter';
 
 import '../styles/Reservas.css';
-import { Button } from '@mui/material';
 
 export const Reservas = () => {
-  const { isAuthenticated, createNewBooking, user } = useContext(UserContext);
+  const { isAuthenticated, 
+          createNewBooking, 
+          user,
+          favoriteCourts,
+          addFavoriteCourt,
+          removeFavoriteCourt } = useContext(UserContext);
 
   const { data: Sports = [], isLoading: isLoadingSports } = useSports();
   const { data: Courts = [], isLoading: isLoadingCourts } = useCourts();
@@ -27,11 +31,21 @@ export const Reservas = () => {
   const [reservationDate, setReservationDate] = useState('');
   const [reservationTime, setReservationTime] = useState('');
   const [duration, setDuration] = useState(1);
+  const toggleFavorite = (e: React.MouseEvent, courtId: string) => {
+    e.stopPropagation();
+    if (isAuthenticated) {
+      if (!favoriteCourts.includes(courtId)) {
+        addFavoriteCourt(courtId);
+      } else {
+        removeFavoriteCourt(courtId);
+      }
+    }
+  };
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const location = params.get('location');
-    if (location) setLocation(location.trimEnd());
+    if (location) setLocation(location);
 
     const sportId = params.get('sportId');
     if (sportId) setSelectedSportId(sportId);
@@ -41,7 +55,7 @@ export const Reservas = () => {
       const court = Courts.find(c => c.id === courtId);
       if (court) setSelectedCourt(court);
     }
-  }, [Courts]);
+  }, [Courts, isAuthenticated]);
 
   const filteredCourts = useMemo(() => {
     let filtered = Courts;
@@ -130,8 +144,18 @@ export const Reservas = () => {
                 >
                   <img src={court.image} alt={court.name} className="reserva-image" />
                   <div className="reserva-info">
-                    <h3 className="reserva-name">{court.name}</h3>
+                    <div className="reserva-header-row">
+                      <h3 className="reserva-name">{court.name}</h3>
+                      <button 
+                        className={`favorite-button ${favoriteCourts.includes(court.id) ? 'active' : ''}`}
+                        onClick={(e) => toggleFavorite(e, court.id)}
+                        title={favoriteCourts.includes(court.id) ? 'Quitar de favoritos' : 'Añadir a favoritos'}
+                      >
+                        {favoriteCourts.includes(court.id) ? '★' : '☆'}
+                      </button>
+                    </div>
                     <p className="reserva-description">{court.description}</p>
+                    <p className="reserva-location">{court.location}</p>
                     <div className="reserva-details">
                       <span className="reserva-price">{court.pricePerHour}€/h</span>
                       <span className="reserva-capacity">👤 {court.capacity}</span>

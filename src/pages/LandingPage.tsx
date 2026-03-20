@@ -198,7 +198,7 @@ const LandingPage = () => {
           <div className="search-bar">
             <input type="text" placeholder="Introduce tu ubicación aquí..." value={location} onChange={(e) => setLocation(e.target.value.trimStart())} />
             {location.length > 0 ? (
-              <Link to={`/reservar?location=${location}`}>
+              <Link to={`/reservar?location=${location.trimEnd()}`}>
                 <Button variant="contained">Buscar</Button>
               </Link>
             ) : (

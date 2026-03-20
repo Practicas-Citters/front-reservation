@@ -10,6 +10,7 @@ interface UserProviderProps {
 interface UserContextType {
     isAuthenticated: boolean;
     isLoading: boolean;
+    favoriteCourts: string[];
 
     user: User | null;
 
@@ -19,6 +20,9 @@ interface UserContextType {
     updateUser: (username: string, fullname: string, email: string, phone: string, birthDate: string) => void;
     fetchPreviousBookings: (email: string) => Promise<any[]>;
     createNewBooking: (email: string, bookingData: any) => void;
+    addFavoriteCourt: (courtId: string) => void;
+    getFavoriteCourts: () => string[];
+    removeFavoriteCourt: (courtId: string) => void;
 }
 
 
@@ -29,6 +33,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [favoriteCourts, setFavoriteCourts] = useState<string[]>([]);
 
     const handleLogin = (email: string, password: string) => {
         const user = users.find(user => user.email === email && user.password === password);
@@ -145,9 +150,26 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             });
     }
 
+    //AÑADIR CONEXIONES A LA API PARA FETCHEAR PISTAS FAVORITAS Y AÑADIR PISTAS FAVORITAS
+    const addFavoriteCourt = (courtId: string) => {
+        setFavoriteCourts(prev => [...prev, courtId]);
+    }
+
+    const getFavoriteCourts = () => {
+        return favoriteCourts;
+    }
+
+    const removeFavoriteCourt = (courtId: string) => {
+        setFavoriteCourts(prev => prev.filter(id => id !== courtId));
+    }
+    
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         const storedIsAuthenticated = localStorage.getItem("isAuthenticated");
+        const storedFavorites = localStorage.getItem("favoriteCourts");
+        if (storedFavorites) {
+        setFavoriteCourts(JSON.parse(storedFavorites));
+        }
 
         if (storedUser && storedIsAuthenticated) {
             const parsedUser = JSON.parse(storedUser);
@@ -160,13 +182,17 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         <UserContext value={{
             isAuthenticated,
             isLoading,
+            favoriteCourts,
             user,
             login: handleLogin,
             logout: handleLogout,
             signin: handleSignIn,
             updateUser: handleUserUpdate,
             fetchPreviousBookings: FetchPreviousBookings,
-            createNewBooking: createNewBooking
+            createNewBooking: createNewBooking,
+            addFavoriteCourt: addFavoriteCourt,
+            getFavoriteCourts: getFavoriteCourts,
+            removeFavoriteCourt: removeFavoriteCourt
         }}>
             {children}
         </UserContext>

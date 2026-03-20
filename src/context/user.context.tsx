@@ -56,8 +56,10 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     const handleLogout = () => {
         setUser(null)
         setIsAuthenticated(false);
+        setFavoriteCourts([]);
         localStorage.removeItem("user");
         localStorage.removeItem("isAuthenticated");
+        localStorage.removeItem("favoriteCourts");
     }
 
     const handleSignIn = async (data: string) => {
@@ -167,8 +169,9 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         const storedUser = localStorage.getItem("user");
         const storedIsAuthenticated = localStorage.getItem("isAuthenticated");
         const storedFavorites = localStorage.getItem("favoriteCourts");
+
         if (storedFavorites) {
-        setFavoriteCourts(JSON.parse(storedFavorites));
+            setFavoriteCourts(JSON.parse(storedFavorites));
         }
 
         if (storedUser && storedIsAuthenticated) {
@@ -177,6 +180,12 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         }
         setIsLoading(false);
     }, [])
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            localStorage.setItem("favoriteCourts", JSON.stringify(favoriteCourts));
+        }
+    }, [favoriteCourts, isAuthenticated])
 
     return (
         <UserContext value={{

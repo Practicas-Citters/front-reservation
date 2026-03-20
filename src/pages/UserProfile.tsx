@@ -4,12 +4,16 @@ import { UserContext } from '../context/user.context'
 import { CustomInput } from '../shared/CustomInput'
 import CustomFooter from '../shared/CustomFooter'
 import '../styles/UserProfile.css'
+import { useCourts } from '../hooks/useBooking'
+import { Link } from 'react-router';
+import { Button } from '@mui/material';
 
 export const UserProfile = () => {
-    const { user, updateUser, fetchPreviousBookings } = useContext(UserContext);
-    const [activeTab, setActiveTab] = useState<'perfil' | 'reservas' | 'pagos'>('perfil');
+    const { user, isAuthenticated, updateUser, fetchPreviousBookings, favoriteCourts, addFavoriteCourt, removeFavoriteCourt } = useContext(UserContext);
+    const [activeTab, setActiveTab] = useState<'perfil' | 'reservas' | 'pagos' | 'favoritos'>('perfil');
 
     const [bookings, setBookings] = useState<any[]>([]);
+    const { data: Courts = [], isLoading: isLoadingCourts } = useCourts();
     const [formData, setFormData] = useState({
         username: user?.username || '',
         name: user?.fullName || '',
@@ -47,6 +51,17 @@ export const UserProfile = () => {
         await updateUser(formData.username, formData.name, formData.email, formData.phone, formData.birthDate);
     };
 
+    const toggleFavorite = (e: React.MouseEvent, courtId: string) => {
+    e.stopPropagation();
+    if (isAuthenticated) {
+      if (!favoriteCourts.includes(courtId)) {
+        addFavoriteCourt(courtId);
+      } else {
+        removeFavoriteCourt(courtId);
+      }
+    }
+  };
+
     return (
         <div className="profile-page-container">
             <CustomHeader />
@@ -76,6 +91,13 @@ export const UserProfile = () => {
                             >
                                 <span className="nav-icon">📅</span>
                                 <span>Mis Reservas</span>
+                            </button>
+                            <button 
+                                className={`sidebar-nav-item ${activeTab === 'favoritos' ? 'active' : ''}`}
+                                onClick={() => setActiveTab('favoritos')}
+                            >
+                                <span className="nav-icon">⭐</span>
+                                <span>Mis Favoritos</span>
                             </button>
                             <button 
                                 className={`sidebar-nav-item ${activeTab === 'pagos' ? 'active' : ''}`}
@@ -166,19 +188,73 @@ export const UserProfile = () => {
                                 </div>
                                 <div className="reservations-list">
                                     {bookings.length > 0 ? (
-                                        bookings.map((booking, index) => (
+                                        bookings.filter(booking => booking.status === 'confirmed').map((booking, index) => (
                                             <div className="reservation-card" key={index}>
                                                 <div className="reservation-info">
                                                     <h4>{booking.court.name || "Reserva sin nombre"}</h4>
                                                     <p>Reservada para el {new Date(booking.date).toLocaleDateString('es-ES')} a las {booking.startTime}</p>
                                                 </div>
                                                 <span className={`reservation-status ${booking.status === 'completed' ? 'status-completed' : ''}`}>
-                                                    {booking.status || 'Pendiente'}
+                                                    {booking.status || 'Desconocido'}
                                                 </span>
                                             </div>
                                         ))
                                     ) : (
                                         <p className="section-subtitle">No tienes reservas previas.</p>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                        
+                        {activeTab === 'favoritos' && (
+                            <div className="section-container">
+                                <div className="section-header">
+                                    <h2 className="section-title">Mis Favoritos</h2>
+                                    <p className="section-subtitle">Encuentra aquí tus pistas favoritas guardadas.</p>
+                                </div>
+                                <div className="favorites-list">
+                                    {favoriteCourts.length > 0 ? 
+                                    (
+                                        Courts.filter(court => favoriteCourts.includes(court.id)).map((court) => (
+                                            <div className="favorite-card" key={court.id}>
+                                                <div className="favorite-info">
+                                                    <h4>{court.name || "Pista sin nombre"}</h4>
+                                                    <p>{court.location}</p>
+                                                    <div className="favorite-court-image">
+                                                        <img className='court-image' src={court.image} alt={court.name} />
+                                                    </div>
+                                                    <Button 
+                                                        component={Link}
+                                                        to={`/reservar?courtId=${court.id}`}
+                                                        variant="contained" 
+                                                        sx={{
+                                                            backgroundColor: 'var(--primary)',
+                                                            fontSize: '1.2rem',
+                                                            color: 'var(--text-main)',
+                                                            fontWeight: 700,
+                                                            marginTop: '10px',
+                                                            border: '2px solid var(--glass-border)',
+                                                            borderRadius: '12px',
+                                                            textTransform: 'none',
+                                                            fontFamily: 'inherit',
+                                                            '&:hover': {
+                                                                backgroundColor: 'var(--primary-dark)',
+                                                                transform: 'translateY(-2px)',
+                                                            },
+                                                            transition: 'all 0.3s ease'
+                                                        }}>Reservar otra vez</Button>
+                                                </div>
+                                                <button 
+                                                    className={`favorite-button ${favoriteCourts.includes(court.id) ? 'active' : ''}`}
+                                                    onClick={(e) => toggleFavorite(e, court.id)}
+                                                    title={favoriteCourts.includes(court.id) ? 'Quitar de favoritos' : 'Añadir a favoritos'}
+                                                >
+                                                    {favoriteCourts.includes(court.id) ? '★' : '☆'}
+                                                </button>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p className="section-subtitle">No tienes ninguna pista marcada como favorita.</p>
                                     )}
                                 </div>
                             </div>

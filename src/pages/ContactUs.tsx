@@ -21,19 +21,19 @@ export const ContactUs = () => {
                 <form>
                     <div className="mb-3">
                         <label htmlFor="name" className="form-label">Nombre Completo:</label>
-                        <input type="text" className="form-control" id="name" placeholder="Inserta tu nombre aquí..." />
+                        <input type="text" className="form-control" id="name" placeholder="Inserta tu nombre aquí..." required />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="email" className="form-label">Correo Electrónico:</label>
-                        <input type="email" className="form-control" id="email" placeholder="Inserta tu email aquí..." />
+                        <input type="email" className="form-control" id="email" placeholder="Inserta tu email aquí..." required />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="phone" className="form-label">Teléfono:</label>
-                        <input type="phone" className="form-control" id="phone" placeholder="Inserta tu teléfono aquí..." />
+                        <input type="phone" className="form-control" id="phone" placeholder="Inserta tu teléfono aquí..." required />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="reason" className="form-label">Motivo de Contacto:</label>
-                        <select className="form-select" id="reason" name="reason" defaultValue="">
+                        <select className="form-select" id="reason" name="reason" defaultValue="" required>
                             <option value="" disabled>Selecciona un motivo...</option>
                             <option value="ayuda-reserva">Necesito ayuda con una de mis reservas.</option>
                             <option value="pregunta-servicio">Tengo una pregunta sobre el servicio.</option>
@@ -44,7 +44,7 @@ export const ContactUs = () => {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="message" className="form-label">Mensaje</label>
-                        <textarea className="form-control" id="message" rows={3} placeholder="Escribe tu mensaje aquí..."></textarea>
+                        <textarea className="form-control" id="message" rows={3} placeholder="Escribe tu mensaje aquí..." required></textarea>
                     </div>
                     <button type="submit" className="btn btn-primary">Enviar</button>
                 </form>

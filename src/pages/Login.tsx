@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router"
 import { useContext, useState } from "react"
-import { UserContext, UserProvider } from "../context/user.context"
+import { UserContext } from "../context/user.context"
 
 import { CustomImage } from "../shared/CustomImage"
 import { CustomInput } from "../shared/CustomInput"

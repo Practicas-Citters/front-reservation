@@ -14,7 +14,12 @@ import CustomFooter from '../shared/CustomFooter';
 import '../styles/Reservas.css';
 
 export const Reservas = () => {
-  const { isAuthenticated, createNewBooking, user } = useContext(UserContext);
+  const { isAuthenticated, 
+          createNewBooking, 
+          user,
+          favoriteCourts,
+          addFavoriteCourt,
+          removeFavoriteCourt } = useContext(UserContext);
 
   const { data: Sports = [], isLoading: isLoadingSports } = useSports();
   const { data: Courts = [], isLoading: isLoadingCourts } = useCourts();
@@ -26,14 +31,15 @@ export const Reservas = () => {
   const [reservationDate, setReservationDate] = useState('');
   const [reservationTime, setReservationTime] = useState('');
   const [duration, setDuration] = useState(1);
-  const [favoriteCourts, setFavoriteCourts] = useState<string[]>([]);
-
   const toggleFavorite = (e: React.MouseEvent, courtId: string) => {
     e.stopPropagation();
-    //CAMBIAR POR BÚSQUEDA EN LA API PARA LAS PISTAS FAVORITAS DEL USUARIO
-    setFavoriteCourts(prev =>
-      prev.includes(courtId) ? prev.filter(id => id !== courtId) : [...prev, courtId]
-    );
+    if (isAuthenticated) {
+      if (!favoriteCourts.includes(courtId)) {
+        addFavoriteCourt(courtId);
+      } else {
+        removeFavoriteCourt(courtId);
+      }
+    }
   };
 
   useEffect(() => {
@@ -49,7 +55,7 @@ export const Reservas = () => {
       const court = Courts.find(c => c.id === courtId);
       if (court) setSelectedCourt(court);
     }
-  }, [Courts]);
+  }, [Courts, isAuthenticated]);
 
   const filteredCourts = useMemo(() => {
     let filtered = Courts;

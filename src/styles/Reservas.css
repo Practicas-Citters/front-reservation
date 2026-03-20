@@ -262,7 +262,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 24px;
+    font-size: 25px;
     color: var(--text-muted);
     transition: all 0.2s ease;
     padding: 0;
@@ -273,7 +273,7 @@
 }
 
 .favorite-button:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
     color: #ffd700;
 }
 

@@ -14,13 +14,13 @@ interface UserContextType {
 
     user: User | null;
 
-    login: (email: string, password: string) => boolean;
+    login: (email: string, password: string) => Promise<boolean>;
     logout: () => void;
     signin: (data: string) => Promise<boolean>;
     updateUser: (username: string, fullname: string, email: string, phone: string, birthDate: string) => void;
     fetchPreviousBookings: (email: string) => Promise<any[]>;
     createNewBooking: (email: string, bookingData: any) => void;
-    addFavoriteCourt: (courtId: string) => void;
+    addFavoriteCourt: (courtId: string) => Promise<void>;
     getFavoriteCourts: () => string[];
     removeFavoriteCourt: (courtId: string) => void;
 }
@@ -35,8 +35,10 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     const [isLoading, setIsLoading] = useState(true);
     const [favoriteCourts, setFavoriteCourts] = useState<string[]>([]);
 
-    const handleLogin = (email: string, password: string) => {
-        const user = users.find(user => user.email === email && user.password === password);
+    const handleLogin = async (email: string, password: string) => {
+
+        const user = await fetch("/api/user/search/email/" + email).then(response => response.json());
+
         if (!user) {
             console.log("Usuario no encontrado.");
             setUser(null);
@@ -50,6 +52,10 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         setUser(user);
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("isAuthenticated", JSON.stringify(true));
+        if (user.favCourts && user.favCourts.length > 0) {
+            setFavoriteCourts(user.favCourts);
+            localStorage.setItem("favoriteCourts", JSON.stringify(user.favCourts));
+        }
         return true;
     }
 
@@ -121,7 +127,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             });
     }
 
-    const FetchPreviousBookings = async(email: string) => {
+    const FetchPreviousBookings = async (email: string) => {
         const user = await fetch("/api/user/search/email/" + email).then(response => response.json());
         const bookings = await fetch("/api/booking/search/user/" + user.id).then(response => response.json());
         return bookings;
@@ -133,7 +139,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             userId: user.id,
             ...bookingData
         };
-        
+
         fetch("/api/booking/", {
             method: "POST",
             headers: {
@@ -153,19 +159,58 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             });
     }
 
-    //AÑADIR CONEXIONES A LA API PARA FETCHEAR PISTAS FAVORITAS Y AÑADIR PISTAS FAVORITAS
-    const addFavoriteCourt = (courtId: string) => {
-        setFavoriteCourts(prev => [...prev, courtId]);
+    const addFavoriteCourt = async (courtId: string) => {
+        const user = localStorage.getItem("user");
+        const storedUser = JSON.parse(user!);
+        fetch("/api/user/" + storedUser.id, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ favCourtsIds: [...favoriteCourts, courtId] })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error al añadir la pista a favoritos.");
+                }
+                setFavoriteCourts([...favoriteCourts, courtId]);
+                localStorage.setItem("favoriteCourts", JSON.stringify([...favoriteCourts, courtId]));
+            })
+            .catch(error => {
+                console.error("Error al añadir la pista a favoritos:", error);
+                toast.error("Error al añadir la pista a favoritos.");
+            });
     }
 
     const getFavoriteCourts = () => {
-        return favoriteCourts;
+        const user = localStorage.getItem("user");
+        const storedUser = JSON.parse(user!);
+        return storedUser.favCourts;
     }
 
     const removeFavoriteCourt = (courtId: string) => {
-        setFavoriteCourts(prev => prev.filter(id => id !== courtId));
+        const user = localStorage.getItem("user");
+        const storedUser = JSON.parse(user!);
+        fetch("/api/user/" + storedUser?.id, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ favCourtsIds: favoriteCourts.filter(id => id !== courtId) })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error al eliminar la pista de favoritos.");
+                }
+                setFavoriteCourts(favoriteCourts.filter(id => id !== courtId));
+                localStorage.setItem("favoriteCourts", JSON.stringify(favoriteCourts.filter(id => id !== courtId)));
+            })
+            .catch(error => {
+                console.error("Error al eliminar la pista de favoritos:", error);
+                toast.error("Error al eliminar la pista de favoritos.");
+            });
     }
-    
+
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         const storedIsAuthenticated = localStorage.getItem("isAuthenticated");

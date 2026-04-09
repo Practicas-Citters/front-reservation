@@ -8,7 +8,8 @@ export interface User {
     password: string,
     isPremium?: boolean,
     role?: string,
-    points?: number
+    points?: number,
+    favouriteCourts?: string[]
 }
 
 export const users: User[] =

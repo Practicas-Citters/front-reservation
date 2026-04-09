@@ -286,6 +286,26 @@
     font-size: 14px;
     color: var(--text-muted);
     flex: 1;
+    margin: 0;
+}
+
+.reserva-location-details {
+    display: flex;
+    justify-content: space-between;
+    gap: 2px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.reserva-organization {
+    font-size: 14px;
+    color: var(--text-main);
+    flex: 1;
+}
+
+.reserva-organization:hover {
+    color: var(--primary);
+    text-decoration: underline;
 }
 
 .reserva-location {
@@ -302,6 +322,7 @@
     padding-top: 15px;
     border-top: 1px solid var(--glass-border);
 }
+
 
 .reserva-price {
     font-weight: 700;
@@ -423,6 +444,70 @@
     outline: none;
     border-color: var(--primary);
     background-color: rgba(255, 255, 255, 0.1);
+}
+
+.horario-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.horario-slot {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--glass-border);
+    background: var(--input-bg);
+    color: var(--text-main);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.horario-slot:hover {
+    border-color: var(--primary);
+    background: rgba(46, 204, 113, 0.1);
+}
+
+.horario-slot.active {
+    background: var(--primary);
+    color: #000;
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(46, 204, 113, 0.3);
+}
+
+.horario-slot:disabled {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--glass-border);
+    color: rgba(255, 255, 255, 0.2);
+    cursor: not-allowed;
+    text-decoration: line-through;
+    box-shadow: none;
+    opacity: 0.5;
+}
+
+.no-schedule-msg {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+    padding: 20px;
+}
+
+.availability-error-msg {
+    margin-top: 15px;
+    padding: 12px;
+    background: rgba(231, 76, 60, 0.1);
+    border: 1px solid #e74c3c;
+    border-radius: 8px;
+    color: #e74c3c;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: fadeIn 0.3s ease-out;
 }
 
 .pay-button:disabled {

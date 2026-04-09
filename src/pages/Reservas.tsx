@@ -1,9 +1,11 @@
 import { useState, useMemo, useContext, useEffect } from 'react';
 import { Link } from 'react-router';
 
+import { checkAvailability } from '../services/api';
+
 import { UserContext } from '../context/user.context';
 
-import { useSports, useCourts } from '../hooks/useBooking';
+import { useSports, useCourts, useSchedule, useBookingsByCourt } from '../hooks/useBooking';
 import type { Court } from '../mock-data/court-mock-data';
 
 import { CustomHeader } from '../shared/CustomHeader';
@@ -14,12 +16,12 @@ import CustomFooter from '../shared/CustomFooter';
 import '../styles/Reservas.css';
 
 export const Reservas = () => {
-  const { isAuthenticated, 
-          createNewBooking, 
-          user,
-          favoriteCourts,
-          addFavoriteCourt,
-          removeFavoriteCourt } = useContext(UserContext);
+  const { isAuthenticated,
+    createNewBooking,
+    user,
+    favoriteCourts,
+    addFavoriteCourt,
+    removeFavoriteCourt } = useContext(UserContext);
 
   const { data: Sports = [], isLoading: isLoadingSports } = useSports();
   const { data: Courts = [], isLoading: isLoadingCourts } = useCourts();
@@ -29,8 +31,11 @@ export const Reservas = () => {
   const [selectedSportId, setSelectedSportId] = useState<string | 'all'>('all');
   const [selectedCourt, setSelectedCourt] = useState<Court | null>(null);
   const [reservationDate, setReservationDate] = useState('');
-  const [reservationTime, setReservationTime] = useState('');
-  const [duration, setDuration] = useState(1);
+  const [startTime, setStartTime] = useState<string | null>(null);
+  const [endTime, setEndTime] = useState<string | null>(null);
+  const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
+  const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
+
   const toggleFavorite = (e: React.MouseEvent, courtId: string) => {
     e.stopPropagation();
     if (isAuthenticated) {
@@ -41,6 +46,7 @@ export const Reservas = () => {
       }
     }
   };
+
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -57,6 +63,39 @@ export const Reservas = () => {
     }
   }, [Courts, isAuthenticated]);
 
+  useEffect(() => {
+    setStartTime(null);
+    setEndTime(null);
+  }, [reservationDate, selectedCourt?.id]);
+
+  useEffect(() => {
+    const fetchAvailability = async () => {
+      if (!selectedCourt || !reservationDate || !startTime || !endTime) {
+        setIsAvailable(null);
+        return;
+      }
+
+      setIsCheckingAvailability(true);
+      try {
+        const result = await checkAvailability(
+          selectedCourt.id,
+          reservationDate,
+          startTime,
+          endTime
+        );
+        const available = typeof result === 'boolean' ? result : (result as any).isAvailable;
+        setIsAvailable(available);
+      } catch (error) {
+        console.error("Error checking availability:", error);
+        setIsAvailable(false);
+      } finally {
+        setIsCheckingAvailability(false);
+      }
+    };
+
+    fetchAvailability();
+  }, [startTime, endTime, reservationDate]);
+
   const filteredCourts = useMemo(() => {
     let filtered = Courts;
 
@@ -71,23 +110,128 @@ export const Reservas = () => {
     return filtered;
   }, [selectedSportId, Courts, location]);
 
+  const formattedDate = useMemo(() => {
+    if (!reservationDate) return '';
+    return reservationDate.split('-').reverse().join('-');
+  }, [reservationDate]);
+
+  const { data: schedule, isLoading: isLoadingSchedule } = useSchedule(selectedCourt?.id, formattedDate);
+  const { data: courtBookings = [] } = useBookingsByCourt(selectedCourt?.id);
+
+  const isSlotDisabled = (time: string) => {
+    return courtBookings.some(booking => {
+      // Use reservationDate (yyyy-mm-dd) for comparison
+      if (booking.date !== reservationDate) return false;
+
+      const [startH, startM] = booking.startTime.split(':').map(Number);
+      const [endH, endM] = booking.endTime.split(':').map(Number);
+      const [currH, currM] = time.split(':').map(Number);
+      
+      const startMin = startH * 60 + startM;
+      const endMin = endH * 60 + endM;
+      const currMin = currH * 60 + currM;
+
+      return currMin >= startMin && currMin < endMin;
+    });
+  };
+
+  const duration = useMemo(() => {
+    if (!startTime || !endTime) return 0;
+    const [startH, startM] = startTime.split(':').map(Number);
+    const [endH, endM] = endTime.split(':').map(Number);
+    const startInMinutes = startH * 60 + startM;
+    const endInMinutes = endH * 60 + endM;
+    return Math.max(0, (endInMinutes - startInMinutes) / 60);
+  }, [startTime, endTime]);
+
   const totalCost = useMemo(() => {
-    if (!selectedCourt) return 0;
+    if (!selectedCourt || duration <= 0) return 0;
     return selectedCourt.pricePerHour * duration;
   }, [selectedCourt, duration]);
+
+  const timeSlots = useMemo(() => {
+    const scheduleData = Array.isArray(schedule) ? schedule[0] : schedule;
+    if (!scheduleData || !scheduleData.startTime || !scheduleData.endTime) return [];
+    
+    const slots = [];
+    const [startH, startM] = scheduleData.startTime.split(':').map(Number);
+    const [endH, endM] = scheduleData.endTime.split(':').map(Number);
+
+    let currentH = startH;
+    let currentM = startM;
+
+    while (currentH < endH || (currentH === endH && currentM <= endM)) {
+      const timeStr = `${currentH.toString().padStart(2, '0')}:${currentM.toString().padStart(2, '0')}`;
+      slots.push(timeStr);
+
+      currentM += 30;
+      if (currentM >= 60) {
+        currentH += 1;
+        currentM = 0;
+      }
+    }
+    return slots;
+  }, [schedule]);
+
+  const handleSelectCourt = (court: Court) => {
+    setSelectedCourt(court);
+    setReservationDate('');
+    setStartTime(null);
+    setEndTime(null);
+  };
+
+  const handleTimeClick = (time: string) => {
+    if (!startTime || (startTime && endTime)) {
+      setStartTime(time);
+      setEndTime(null);
+    } else {
+      const [startH, startM] = startTime.split(':').map(Number);
+      const [clickH, clickM] = time.split(':').map(Number);
+      const startInMin = startH * 60 + startM;
+      const clickInMin = clickH * 60 + clickM;
+
+      if (clickInMin < startInMin) {
+        setStartTime(time);
+        setEndTime(null);
+      } else if (clickInMin > startInMin) {
+        setEndTime(time);
+      } else {
+        setStartTime(time);
+        setEndTime(null);
+      }
+    }
+  };
+
+  const isTimeInRange = (time: string) => {
+    if (!startTime || !endTime) return time === startTime;
+    const [startH, startM] = startTime.split(':').map(Number);
+    const [endH, endM] = endTime.split(':').map(Number);
+    const [currH, currM] = time.split(':').map(Number);
+    const startMin = startH * 60 + startM;
+    const endMin = endH * 60 + endM;
+    const currMin = currH * 60 + currM;
+    return currMin >= startMin && currMin <= endMin;
+  };
+
+
+  const isFormValid = useMemo(() => {
+    if (reservationDate === '' || startTime === null || endTime === null || selectedCourt === null) return false;
+    
+    const startIndex = timeSlots.indexOf(startTime);
+    const endIndex = timeSlots.indexOf(endTime);
+    
+    if (startIndex === -1 || endIndex === -1) return false;
+    
+    for (let i = startIndex; i <= endIndex; i++) {
+      if (isSlotDisabled(timeSlots[i])) return false;
+    }
+    
+    return true;
+  }, [reservationDate, startTime, endTime, selectedCourt, timeSlots, isSlotDisabled]);
 
   if (isLoadingSports || isLoadingCourts) {
     return <div className="loading-container">Cargando...</div>;
   }
-
-  const handleSelectCourt = (court: Court) => {
-    setSelectedCourt(court);
-    setDuration(1);
-    setReservationDate('');
-    setReservationTime('');
-  };
-
-  const isFormValid = reservationDate !== '' && reservationTime !== '' && selectedCourt !== null;
 
   return (
     <div className="reservas-page">
@@ -126,10 +270,10 @@ export const Reservas = () => {
             <div className="search-bar-container">
               <span>⚲</span>
               <div className="search-bar">
-                <input type="text" 
-                placeholder="Introduce tu ubicación aquí..." 
-                value={location} 
-                onChange={(e) => setLocation(e.target.value.trimStart())} />
+                <input type="text"
+                  placeholder="Introduce tu ubicación aquí..."
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value.trimStart())} />
               </div>
             </div>
           </div>
@@ -146,7 +290,7 @@ export const Reservas = () => {
                   <div className="reserva-info">
                     <div className="reserva-header-row">
                       <h3 className="reserva-name">{court.name}</h3>
-                      <button 
+                      <button
                         className={`favorite-button ${favoriteCourts.includes(court.id) ? 'active' : ''}`}
                         onClick={(e) => toggleFavorite(e, court.id)}
                         title={favoriteCourts.includes(court.id) ? 'Quitar de favoritos' : 'Añadir a favoritos'}
@@ -155,7 +299,12 @@ export const Reservas = () => {
                       </button>
                     </div>
                     <p className="reserva-description">{court.description}</p>
-                    <p className="reserva-location">{court.location}</p>
+                    <div className="reserva-location-details">
+                      <Link to={`/organization/${court.organization.id}`}>
+                        <p className="reserva-organization">{court.organization.name}</p>
+                      </Link>
+                      <p className="reserva-location">, {court.location}</p>
+                    </div>
                     <div className="reserva-details">
                       <span className="reserva-price">{court.pricePerHour}€/h</span>
                       <span className="reserva-capacity">👤 {court.capacity}</span>
@@ -190,7 +339,7 @@ export const Reservas = () => {
                   <h4>Configura tu reserva</h4>
                   <div className="form-grid">
                     <div className="input-group">
-                      <label>Fecha de juego</label>
+                      <label>Fecha de la reserva</label>
                       <input
                         type="date"
                         className="sidebar-input"
@@ -201,33 +350,32 @@ export const Reservas = () => {
                     </div>
 
                     <div className="input-group">
-                      <label>Hora de inicio</label>
-                      <select
-                        className="sidebar-input"
-                        value={reservationTime}
-                        onChange={(e) => setReservationTime(e.target.value)}
-                      >
-                        <option value="">Selecciona la hora:</option>
-                        {Array.from({ length: 15 }, (_, i) => i + 8).map(hour => (
-                          <option key={hour} value={`${hour}:00`}>{hour}:00</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className="input-group">
-                      <label>Duración:</label>
-                      <select
-                        className="sidebar-input"
-                        value={duration}
-                        onChange={(e) => setDuration(Number(e.target.value))}
-                      >
-                        {[1, 1.5, 2, 2.5, 3].map(h => (
-                          <option key={h} value={h}>{h} {h === 1 ? 'hora' : 'horas'}</option>
-                        ))}
-                      </select>
+                      <label>Elige una hora de inicio y final</label>
+                      <div className="horario-grid">
+                        {isLoadingSchedule ? (
+                          <p className="no-schedule-msg">Cargando horario...</p>
+                        ) : timeSlots.length > 0 ? (
+                          timeSlots.map(time => (
+                            <button
+                              key={time}
+                              className={`horario-slot ${isTimeInRange(time) ? 'active' : ''}`}
+                              onClick={() => handleTimeClick(time)}
+                              disabled={isSlotDisabled(time)}
+                            >
+                              {time}
+                            </button>
+                          ))
+                        ) : (
+                          <p className="no-schedule-msg">{reservationDate ? 'No hay horarios disponibles' : 'Selecciona una fecha'}</p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
+
+                {isAvailable === false && (
+                  <p className="availability-error-msg">⚠️ Este horario ya está reservado. Por favor, selecciona otro.</p>
+                )}
 
                 <div className="sidebar-divider"></div>
 
@@ -236,28 +384,39 @@ export const Reservas = () => {
                   <strong>{selectedCourt.pricePerHour}€</strong>
                 </div>
 
-                {/* <div className="sidebar-info-row">
+                <div className="sidebar-info-row">
                   <span>Ubicación:</span>
-                  <strong>Pista {selectedCourt.location}</strong>
-                </div> */}
+                  <strong>{selectedCourt.location}</strong>
+                </div>
 
                 <div className="sidebar-divider"></div>
 
                 <div className="sidebar-total">
                   <span>Precio Total: </span>
-                  <span className="total-amount">{totalCost}€</span>
+                  {
+                    (startTime && endTime) ? (
+                      <span className="total-amount">{totalCost}€</span>
+                    ) : (
+                      <span className="total-amount">0€</span>
+                    )
+                  }
                 </div>
+
                 {isAuthenticated && user ?
                   (
-                    <button className="pay-button" disabled={!isFormValid} onClick={() => createNewBooking(user.email, {
-                      courtId: selectedCourt.id,
-                      date: reservationDate,
-                      startTime: reservationTime,
-                      endTime: reservationTime,
-                      numPeople: selectedCourt.capacity,
-                      totalPrice: totalCost
-                    })}>
-                      Proceder al Pago
+                    <button
+                      className="pay-button"
+                      disabled={!isFormValid || isAvailable === false || isCheckingAvailability}
+                      onClick={() => createNewBooking(user.email, {
+                        courtId: selectedCourt.id,
+                        date: reservationDate,
+                        startTime: startTime!,
+                        endTime: endTime!,
+                        numPeople: selectedCourt.capacity,
+                        totalPrice: totalCost
+                      })}
+                    >
+                      {isCheckingAvailability ? 'Comprobando...' : (isAvailable === false ? 'Horario no disponible' : 'Proceder al Pago')}
                     </button>
                   )
                   :

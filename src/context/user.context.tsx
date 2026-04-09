@@ -133,6 +133,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             userId: user.id,
             ...bookingData
         };
+        
         fetch("/api/booking/", {
             method: "POST",
             headers: {

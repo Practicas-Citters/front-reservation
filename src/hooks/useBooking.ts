@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchSports, fetchCourts } from "../services/api";
+import { fetchSports, fetchCourts, fetchSchedule, fetchBookingsbyCourt } from "../services/api";
 
 export const useSports = () => {
     return useQuery({
@@ -29,6 +29,24 @@ export const useCourts = () => {
                     : `/icons/${court.image}`
             }));
         },
+        staleTime: 1000 * 60 * 5,
+    });
+};
+
+export const useSchedule = (courtId: string | undefined, date: string | undefined) => {
+    return useQuery({
+        queryKey: ["schedule", courtId, date],
+        queryFn: () => fetchSchedule(courtId!, date!),
+        enabled: !!courtId && !!date,
+        staleTime: 1000 * 60 * 5,
+    });
+};
+
+export const useBookingsByCourt = (courtId: string | undefined) => {
+    return useQuery({
+        queryKey: ["bookings", courtId],
+        queryFn: () => fetchBookingsbyCourt(courtId!),
+        enabled: !!courtId,
         staleTime: 1000 * 60 * 5,
     });
 };

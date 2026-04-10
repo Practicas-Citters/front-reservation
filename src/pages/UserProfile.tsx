@@ -199,7 +199,7 @@ export const UserProfile = () => {
                                             <div className="reservation-card" key={index}>
                                                 <div className="reservation-info">
                                                     <h4>{booking.court.name || "Reserva sin nombre"}</h4>
-                                                    <p>Reservada para el {new Date(booking.date).toLocaleDateString('es-ES')} a las {booking.startTime}</p>
+                                                    <p>Reservada para el {new Date(booking.date).toLocaleDateString('es-ES')} de {booking.startTime} a {booking.endTime}</p>
                                                 </div>
                                                 <span className={`reservation-status ${booking.status === 'completed' ? 'status-completed' : ''}`}>
                                                     {booking.status || 'Desconocido'}

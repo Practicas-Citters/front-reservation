@@ -63,7 +63,7 @@ header h2 {
     overflow: hidden;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .hero-background {
@@ -81,11 +81,9 @@ header h2 {
 }
 
 .hero-content {
-    position: absolute;
-    top: 50%;
-    left: 10%;
-    transform: translateY(-50%);
+    width: 50%;
     max-width: 700px;
+    margin-left: 5%;
     color: white;
     padding: 40px;
     background: rgba(148, 148, 148, 0.2)
@@ -104,7 +102,7 @@ header h2 {
 
 .hero-search {
     margin-top: 20px;
-    margin-left: 40%;
+    width: 50%;
 }
 
 .search-bar {

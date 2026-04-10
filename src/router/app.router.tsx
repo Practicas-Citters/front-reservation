@@ -1,9 +1,8 @@
 import { createBrowserRouter, Navigate, Outlet, ScrollRestoration } from 'react-router'
-import Login from '../pages/Login';
-import LandingPage from '../pages/LandingPage';
 import { PrivateRoute } from './private.routes';
-import { Reservas } from '../pages/Reservas';
 import { GuestRoute } from './guest.routes';
+
+import { Reservas } from '../pages/Reservas';
 import { UserProfile } from '../pages/UserProfile';
 import { ContactUs } from '../pages/ContactUs';
 import { TermsandConds } from '../pages/TermsAndConds';
@@ -11,6 +10,8 @@ import SignIn from '../pages/Register';
 import { PrivacyPolicy } from '../pages/PrivacyPolicy';
 import { CompanyInfo } from '../pages/CompanyInfo';
 import FAQ from '../pages/FAQ';
+import Login from '../pages/Login';
+import LandingPage from '../pages/LandingPage';
 
 const RootLayout = () => {
     return (

@@ -12,7 +12,7 @@ interface Props
         const { isAuthenticated, isLoading } = useContext(UserContext);
         
         if (isLoading) {
-            return null; // O un spinner de carga
+            return null;
         }
 
         if (isAuthenticated)

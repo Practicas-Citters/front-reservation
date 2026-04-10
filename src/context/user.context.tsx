@@ -220,19 +220,28 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     }
 
     useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        const storedIsAuthenticated = localStorage.getItem("isAuthenticated");
-        const storedFavorites = localStorage.getItem("favoriteCourts");
+        const restoreSession = async () => {
+            const storedUser = localStorage.getItem("user");
+            const storedIsAuthenticated = localStorage.getItem("isAuthenticated");
+            const storedFavorites = localStorage.getItem("favoriteCourts");
 
-        if (storedFavorites) {
-            setFavoriteCourts(JSON.parse(storedFavorites));
-        }
+            if (storedFavorites) {
+                setFavoriteCourts(JSON.parse(storedFavorites));
+            }
 
-        if (storedUser && storedIsAuthenticated) {
-            const parsedUser = JSON.parse(storedUser);
-            handleLogin(parsedUser.email, parsedUser.password);
-        }
-        setIsLoading(false);
+            if (storedUser && storedIsAuthenticated) {
+                const parsedUser = JSON.parse(storedUser);
+                try {
+                    await handleLogin(parsedUser.email, parsedUser.password);
+                } catch (error) {
+                    console.error("Error al restaurar la sesión:", error);
+                }
+            }
+
+            setIsLoading(false);
+        };
+
+        restoreSession();
     }, [])
 
     useEffect(() => {

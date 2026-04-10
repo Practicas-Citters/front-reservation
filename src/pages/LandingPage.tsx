@@ -36,7 +36,7 @@ const LandingPage = () => {
   }
 
   return (
-    <div>
+    <div> 
       <header>
         <div className="logo-title">
           <div className="landing-page-logo">
@@ -48,7 +48,6 @@ const LandingPage = () => {
         </div>
 
         <div className="header-right">
-
         <div className="company-section-menu">
             <div className="company-section-trigger">
               <div className="company-section-title">
@@ -105,6 +104,39 @@ const LandingPage = () => {
             </div>
             <div className="dropdown-content">
               <div className="dropdown-header">
+                <p>Cuenta de Usuario</p>
+              </div>
+              <ul className="dropdown-list">
+                <li>
+                  <Link to="/perfil" className="dropdown-item">
+                    <span className="item-icon">👤</span>
+                    <span>Mi Perfil</span>
+                  </Link>
+                </li>
+                <li className="dropdown-divider"></li>
+                <li>
+                  <button onClick={logout} className="dropdown-item logout-item">
+                    <span className="item-icon">➜</span>
+                    <span>Cerrar Sesión</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+            <div className="user-trigger-mobile">
+              <CustomImage
+                src="src/assets/user-default-icon.png"
+                alt="Perfil"
+                className="user-avatar"
+              />
+              <span className="chevron-icon">▾</span>
+            </div>
+            <div className="dropdown-content">
+              <div className="dropdown-header">
+                <div className="user-info-mobile">
+                <span className="user-greeting-mobile">Bienvenido,</span>
+                <span className="user-name-mobile">{user?.username}</span>
+              </div>
+              <div className="dropdown-divider"></div>
                 <p>Cuenta de Usuario</p>
               </div>
               <ul className="dropdown-list">

@@ -43,7 +43,7 @@ const LandingPage = () => {
             <CustomImage src="src\assets\logo.png" alt="logo" className="logo"></CustomImage>
           </div>
           <div className="landing-page-title">
-            <Link to="/"><CustomTitle text="Desportes"></CustomTitle></Link>
+            <Link to="/"><CustomTitle text="KinesisPlay"></CustomTitle></Link>
           </div>
         </div>
 
@@ -175,7 +175,7 @@ const LandingPage = () => {
         <div className="hero-background"></div>
         <div className="hero-content">
             <h1 className="hero-title">Reserva tu pista favorita en segundos.</h1>
-            <p className="hero-description">¡Únete a Desportes y disfruta de la mejor experiencia de reserva de pistas deportivas!</p>
+            <p className="hero-description">¡Únete a KinesisPlay y disfruta de la mejor experiencia de reserva de pistas deportivas!</p>
             <Link to="/reservar">
               <Button variant="contained" sx={{
                 backgroundColor: 'var(--primary)',

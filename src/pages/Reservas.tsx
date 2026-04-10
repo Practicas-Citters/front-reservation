@@ -14,6 +14,7 @@ import { CustomSubtitle } from '../shared/CustomSubtitle';
 import CustomFooter from '../shared/CustomFooter';
 
 import '../styles/Reservas.css';
+import { toast } from 'react-toastify';
 
 export const Reservas = () => {
   const { isAuthenticated,
@@ -36,14 +37,24 @@ export const Reservas = () => {
   const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
   const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
 
-  const toggleFavorite = (e: React.MouseEvent, courtId: string) => {
+  const isFavorite = (courtId: string) => {
+    return favoriteCourts.some((c: any) => {
+      const id = typeof c === 'string' ? c : c.id;
+      return id === courtId;
+    });
+  };
+
+  const toggleFavorite = (e: React.MouseEvent, court: Court) => {
     e.stopPropagation();
     if (isAuthenticated) {
-      if (!favoriteCourts.includes(courtId)) {
-        addFavoriteCourt(courtId);
+      if (!isFavorite(court.id)) {
+        addFavoriteCourt(court);
       } else {
-        removeFavoriteCourt(courtId);
+        removeFavoriteCourt(court.id);
       }
+    }
+    else {
+      toast.error("Debes iniciar sesión para añadir la pista a favoritos.");
     }
   };
 
@@ -291,11 +302,11 @@ export const Reservas = () => {
                     <div className="reserva-header-row">
                       <h3 className="reserva-name">{court.name}</h3>
                       <button
-                        className={`favorite-button ${favoriteCourts.includes(court.id) ? 'active' : ''}`}
-                        onClick={(e) => toggleFavorite(e, court.id)}
-                        title={favoriteCourts.includes(court.id) ? 'Quitar de favoritos' : 'Añadir a favoritos'}
+                        className={`favorite-button ${isFavorite(court.id) ? 'active' : ''}`}
+                        onClick={(e) => toggleFavorite(e, court)}
+                        title={isFavorite(court.id) ? 'Quitar de favoritos' : 'Añadir a favoritos'}
                       >
-                        {favoriteCourts.includes(court.id) ? '★' : '☆'}
+                        {isFavorite(court.id) ? '★' : '☆'}
                       </button>
                     </div>
                     <p className="reserva-description">{court.description}</p>

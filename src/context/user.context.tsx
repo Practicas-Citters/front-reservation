@@ -10,7 +10,7 @@ interface UserProviderProps {
 interface UserContextType {
     isAuthenticated: boolean;
     isLoading: boolean;
-    favoriteCourts: string[];
+    favoriteCourts: any[];
 
     user: User | null;
 
@@ -20,8 +20,8 @@ interface UserContextType {
     updateUser: (username: string, fullname: string, email: string, phone: string, birthDate: string) => void;
     fetchPreviousBookings: (email: string) => Promise<any[]>;
     createNewBooking: (email: string, bookingData: any) => void;
-    addFavoriteCourt: (courtId: string) => Promise<void>;
-    getFavoriteCourts: () => string[];
+    addFavoriteCourt: (court: any) => Promise<void>;
+    getFavoriteCourts: () => any[];
     removeFavoriteCourt: (courtId: string) => void;
 }
 
@@ -33,7 +33,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [favoriteCourts, setFavoriteCourts] = useState<string[]>([]);
+    const [favoriteCourts, setFavoriteCourts] = useState<any[]>([]);
 
     const handleLogin = async (email: string, password: string) => {
 
@@ -159,22 +159,25 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             });
     }
 
-    const addFavoriteCourt = async (courtId: string) => {
+    const addFavoriteCourt = async (court: any) => {
         const user = localStorage.getItem("user");
         const storedUser = JSON.parse(user!);
+        const courtId = typeof court === 'string' ? court : court.id;
+        const newFavorites = [...favoriteCourts, court];
+        const favCourtsIds = newFavorites.map((c: any) => typeof c === 'string' ? c : c.id);
         fetch("/api/user/" + storedUser.id, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ favCourtsIds: [...favoriteCourts, courtId] })
+            body: JSON.stringify({ favCourtsIds })
         })
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Error al añadir la pista a favoritos.");
                 }
-                setFavoriteCourts([...favoriteCourts, courtId]);
-                localStorage.setItem("favoriteCourts", JSON.stringify([...favoriteCourts, courtId]));
+                setFavoriteCourts(newFavorites);
+                localStorage.setItem("favoriteCourts", JSON.stringify(newFavorites));
             })
             .catch(error => {
                 console.error("Error al añadir la pista a favoritos:", error);
@@ -191,19 +194,24 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     const removeFavoriteCourt = (courtId: string) => {
         const user = localStorage.getItem("user");
         const storedUser = JSON.parse(user!);
+        const filtered = favoriteCourts.filter((c: any) => {
+            const id = typeof c === 'string' ? c : c.id;
+            return id !== courtId;
+        });
+        const favCourtsIds = filtered.map((c: any) => typeof c === 'string' ? c : c.id);
         fetch("/api/user/" + storedUser?.id, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ favCourtsIds: favoriteCourts.filter(id => id !== courtId) })
+            body: JSON.stringify({ favCourtsIds })
         })
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Error al eliminar la pista de favoritos.");
                 }
-                setFavoriteCourts(favoriteCourts.filter(id => id !== courtId));
-                localStorage.setItem("favoriteCourts", JSON.stringify(favoriteCourts.filter(id => id !== courtId)));
+                setFavoriteCourts(filtered);
+                localStorage.setItem("favoriteCourts", JSON.stringify(filtered));
             })
             .catch(error => {
                 console.error("Error al eliminar la pista de favoritos:", error);

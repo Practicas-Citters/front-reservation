@@ -4,7 +4,6 @@ import { UserContext } from '../context/user.context'
 import { CustomInput } from '../shared/CustomInput'
 import CustomFooter from '../shared/CustomFooter'
 import '../styles/UserProfile.css'
-import { useCourts } from '../hooks/useBooking'
 import { Link } from 'react-router';
 import { Button } from '@mui/material';
 
@@ -13,7 +12,6 @@ export const UserProfile = () => {
     const [activeTab, setActiveTab] = useState<'perfil' | 'reservas' | 'pagos' | 'favoritos'>('perfil');
 
     const [bookings, setBookings] = useState<any[]>([]);
-    const { data: Courts = [], isLoading: isLoadingCourts } = useCourts();
     const [formData, setFormData] = useState({
         username: user?.username || '',
         name: user?.fullName || '',
@@ -38,6 +36,7 @@ export const UserProfile = () => {
     useEffect(() => {
         if (activeTab === 'reservas' && user?.email) {
             fetchPreviousBookings(user.email).then(data => setBookings(data));
+            console.log("favCourts: ", favoriteCourts);
         }
     }, [activeTab, user?.email, fetchPreviousBookings]);
 
@@ -51,11 +50,19 @@ export const UserProfile = () => {
         await updateUser(formData.username, formData.name, formData.email, formData.phone, formData.birthDate);
     };
 
-    const toggleFavorite = (e: React.MouseEvent, courtId: string) => {
+    const isFavorite = (courtId: string) => {
+        return favoriteCourts.some((c: any) => {
+            const id = typeof c === 'string' ? c : c.id;
+            return id === courtId;
+        });
+    };
+
+    const toggleFavorite = (e: React.MouseEvent, court: any) => {
     e.stopPropagation();
     if (isAuthenticated) {
-      if (!favoriteCourts.includes(courtId)) {
-        addFavoriteCourt(courtId);
+      const courtId = typeof court === 'string' ? court : court.id;
+      if (!isFavorite(courtId)) {
+        addFavoriteCourt(court);
       } else {
         removeFavoriteCourt(courtId);
       }
@@ -215,7 +222,7 @@ export const UserProfile = () => {
                                 <div className="favorites-list">
                                     {favoriteCourts.length > 0 ? 
                                     (
-                                        Courts.filter(court => favoriteCourts.includes(court.id)).map((court) => (
+                                        favoriteCourts.map((court: any) => (
                                             <div className="favorite-card" key={court.id}>
                                                 <div className="favorite-info">
                                                     <h4>{court.name || "Pista sin nombre"}</h4>
@@ -245,11 +252,11 @@ export const UserProfile = () => {
                                                         }}>Reservar otra vez</Button>
                                                 </div>
                                                 <button 
-                                                    className={`favorite-button ${favoriteCourts.includes(court.id) ? 'active' : ''}`}
-                                                    onClick={(e) => toggleFavorite(e, court.id)}
-                                                    title={favoriteCourts.includes(court.id) ? 'Quitar de favoritos' : 'Añadir a favoritos'}
+                                                    className={`favorite-button active`}
+                                                    onClick={(e) => toggleFavorite(e, court)}
+                                                    title='Quitar de favoritos'
                                                 >
-                                                    {favoriteCourts.includes(court.id) ? '★' : '☆'}
+                                                    ★
                                                 </button>
                                             </div>
                                         ))

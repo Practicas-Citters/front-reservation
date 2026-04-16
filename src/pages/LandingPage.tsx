@@ -2,6 +2,7 @@ import Button from '@mui/material/Button'
 import { Link } from 'react-router'
 import { UserContext } from '../context/user.context'
 import { useContext, useState } from 'react'
+import { useMediaQuery } from 'react-responsive'
 
 import { CustomTitle } from '../shared/CustomTitle'
 import { CustomImage } from '../shared/CustomImage'
@@ -11,6 +12,10 @@ import CustomFooter from '../shared/CustomFooter'
 import { useSports, useCourts } from '../hooks/useBooking'
 
 const LandingPage = () => {
+  const isMobile = useMediaQuery({ maxWidth: 519 });
+  const isTablet = useMediaQuery({ minWidth: 520, maxWidth: 1023 });
+  const isDesktop = useMediaQuery({ minWidth: 1024 });
+
   const { isAuthenticated, user, logout } = useContext(UserContext);
   const [currentSportIndex, setCurrentSportIndex] = useState(0);
 
@@ -42,9 +47,11 @@ const LandingPage = () => {
           <div className="landing-page-logo">
             <CustomImage src="src\assets\logo.png" alt="logo" className="logo"></CustomImage>
           </div>
-          <div className="landing-page-title">
-            <Link to="/"><CustomTitle text="KinesisPlay"></CustomTitle></Link>
-          </div>
+          {!isMobile && (
+            <div className="landing-page-title">
+              <Link to="/"><CustomTitle text="KinesisPlay"></CustomTitle></Link>
+            </div>
+          )}
         </div>
 
         <div className="header-right">
@@ -89,54 +96,33 @@ const LandingPage = () => {
         
 
         {isAuthenticated ? (
-          <div className="user-menu">
-            <div className="user-trigger">
+          <div className={isMobile ? "user-menu-mobile" : "user-menu"}>
+            <div className={isMobile ? "user-trigger-mobile" : "user-trigger"}>
               <CustomImage
                 src="src/assets/user-default-icon.png"
                 alt="Perfil"
                 className="user-avatar"
               />
-              <div className="user-info">
-                <span className="user-greeting">Bienvenido,</span>
-                <span className="user-name">{user?.username}</span>
-              </div>
+              {!isMobile && (
+                <div className="user-info">
+                  <span className="user-greeting">Bienvenido,</span>
+                  <span className="user-name">{user?.username}</span>
+                </div>
+              )}
               <span className="chevron-icon">▾</span>
             </div>
+            
             <div className="dropdown-content">
               <div className="dropdown-header">
-                <p>Cuenta de Usuario</p>
-              </div>
-              <ul className="dropdown-list">
-                <li>
-                  <Link to="/perfil" className="dropdown-item">
-                    <span className="item-icon">👤</span>
-                    <span>Mi Perfil</span>
-                  </Link>
-                </li>
-                <li className="dropdown-divider"></li>
-                <li>
-                  <button onClick={logout} className="dropdown-item logout-item">
-                    <span className="item-icon">➜</span>
-                    <span>Cerrar Sesión</span>
-                  </button>
-                </li>
-              </ul>
-            </div>
-            <div className="user-trigger-mobile">
-              <CustomImage
-                src="src/assets/user-default-icon.png"
-                alt="Perfil"
-                className="user-avatar"
-              />
-              <span className="chevron-icon">▾</span>
-            </div>
-            <div className="dropdown-content">
-              <div className="dropdown-header">
-                <div className="user-info-mobile">
-                <span className="user-greeting-mobile">Bienvenido,</span>
-                <span className="user-name-mobile">{user?.username}</span>
-              </div>
-              <div className="dropdown-divider"></div>
+                {isMobile && (
+                  <>
+                    <div className="user-info-mobile">
+                      <span className="user-greeting-mobile">Bienvenido,</span>
+                      <span className="user-name-mobile">{user?.username}</span>
+                    </div>
+                    <div className="dropdown-divider"></div>
+                  </>
+                )}
                 <p>Cuenta de Usuario</p>
               </div>
               <ul className="dropdown-list">
@@ -246,7 +232,7 @@ const LandingPage = () => {
           <h1 className="section-title">Pistas Destacadas</h1>
           <div className="courts-grid">
             {
-              Courts.slice(0, 3).map(court => (
+              Courts.slice(0, 4).map(court => (
                 <div className="court-card" key={court.id}>
                   <img src={court.image} alt={court.name} />
                   <h2>{court.name}</h2>
@@ -280,23 +266,28 @@ const LandingPage = () => {
           <button className="carousel-btn carousel-btn-prev" onClick={handlePrevSport}>←</button>
 
           <div className="carousel-track">
-            <div className="sport-card sport-card-prev">
-              <Link to={`/reservar?sportId=${Sports[getPrevIndex()].id}`}>
-                <img src={Sports[getPrevIndex()].iconUrl} alt={Sports[getPrevIndex()].name} />
-              </Link>
-            </div>
+            {isDesktop && (
+              <div className="sport-card sport-card-prev">
+                <Link to={`/reservar?sportId=${Sports[getPrevIndex()].id}`}>
+                  <img src={Sports[getPrevIndex()].iconUrl} alt={Sports[getPrevIndex()].name} />
+                </Link>
+              </div>
+            )}
 
             <div className="sport-card sport-card-center">
               <Link to={`/reservar?sportId=${Sports[currentSportIndex].id}`}>
                 <img src={Sports[currentSportIndex].iconUrl} alt={Sports[currentSportIndex].name} />
               </Link>
+              {!isDesktop && <span className="sport-name">{Sports[currentSportIndex].name}</span>}
             </div>
 
-            <div className="sport-card sport-card-next">
-              <Link to={`/reservar?sportId=${Sports[getNextIndex()].id}`}>
-                <img src={Sports[getNextIndex()].iconUrl} alt={Sports[getNextIndex()].name} />
-              </Link>
-            </div>
+            {isDesktop && (
+              <div className="sport-card sport-card-next">
+                <Link to={`/reservar?sportId=${Sports[getNextIndex()].id}`}>
+                  <img src={Sports[getNextIndex()].iconUrl} alt={Sports[getNextIndex()].name} />
+                </Link>
+              </div>
+            )}
           </div>
 
           <button className="carousel-btn carousel-btn-next" onClick={handleNextSport}>→</button>

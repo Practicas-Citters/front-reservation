@@ -19,10 +19,10 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const handleLoginForm = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleLoginForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setisLoading(true);
-    if (login(email, password)) {
+    if (await login(email, password)) {
       navigate("/");
     }
     setisLoading(false);

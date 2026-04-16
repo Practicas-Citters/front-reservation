@@ -35,7 +35,7 @@ const CustomFooter = () => {
                 <Link className="footer-link" to="/contacto">Contáctanos</Link>
             </div>
             <div className="footer-copyright">
-                <p>© 2026 Desportes. Todos los derechos reservados.</p>
+                <p>© 2026 KinesisPlay. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>

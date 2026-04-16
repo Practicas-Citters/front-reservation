@@ -36,7 +36,6 @@ export const UserProfile = () => {
     useEffect(() => {
         if (activeTab === 'reservas' && user?.email) {
             fetchPreviousBookings(user.email).then(data => setBookings(data));
-            console.log("favCourts: ", favoriteCourts);
         }
     }, [activeTab, user?.email, fetchPreviousBookings]);
 
@@ -90,28 +89,28 @@ export const UserProfile = () => {
                                 onClick={() => setActiveTab('perfil')}
                             >
                                 <span className="nav-icon">👤</span>
-                                <span>Datos de Usuario</span>
+                                <span className="nav-text">Datos de Usuario</span>
                             </button>
                             <button 
                                 className={`sidebar-nav-item ${activeTab === 'reservas' ? 'active' : ''}`}
                                 onClick={() => setActiveTab('reservas')}
                             >
                                 <span className="nav-icon">📅</span>
-                                <span>Mis Reservas</span>
+                                <span className="nav-text">Mis Reservas</span>
                             </button>
                             <button 
                                 className={`sidebar-nav-item ${activeTab === 'favoritos' ? 'active' : ''}`}
                                 onClick={() => setActiveTab('favoritos')}
                             >
                                 <span className="nav-icon">⭐</span>
-                                <span>Mis Favoritos</span>
+                                <span className="nav-text">Mis Favoritos</span>
                             </button>
                             <button 
                                 className={`sidebar-nav-item ${activeTab === 'pagos' ? 'active' : ''}`}
                                 onClick={() => setActiveTab('pagos')}
                             >
                                 <span className="nav-icon">💳</span>
-                                <span>Datos de Pago</span>
+                                <span className="nav-text">Datos de Pago</span>
                             </button>
                         </nav>
                     </aside>
@@ -224,12 +223,12 @@ export const UserProfile = () => {
                                     (
                                         favoriteCourts.map((court: any) => (
                                             <div className="favorite-card" key={court.id}>
+                                                <div className="favorite-court-image">
+                                                    <img className='court-image' src={court.image} alt={court.name} />
+                                                </div>
                                                 <div className="favorite-info">
                                                     <h4>{court.name || "Pista sin nombre"}</h4>
                                                     <p>{court.location}</p>
-                                                    <div className="favorite-court-image">
-                                                        <img className='court-image' src={court.image} alt={court.name} />
-                                                    </div>
                                                     <Button 
                                                         component={Link}
                                                         to={`/reservar?courtId=${court.id}`}

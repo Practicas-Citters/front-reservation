@@ -243,12 +243,22 @@
 
   .sidebar-nav {
     flex-direction: row;
-    overflow-x: auto;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
     padding-bottom: 10px;
+  }
+
+  .nav-text {
+    display: none;
   }
 
   .sidebar-nav-item {
     white-space: nowrap;
+    border: 2px solid var(--glass-border);
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
   }
 
   .profile-form {
@@ -281,6 +291,12 @@
   transform: translateY(-2px);
 }
 
+.favorite-info {
+  width: 45%;
+  height: 100%;
+  border-radius: 12px;
+}
+
 .favorite-info h4 {
   margin: 0 0 5px;
   font-size: 1.1rem;
@@ -293,12 +309,10 @@
 }
 
 .favorite-court-image {
-  width: 100%;
-  height: 250px;
+  width: 45%;
+  height: 100%;
   border-radius: 12px;
   overflow: hidden;
-  margin-top: 15px;
-  margin-bottom: 15px;
 }
 
 .favorite-court-image img {

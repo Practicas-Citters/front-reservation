@@ -60,8 +60,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             const userData = data.user;
             setIsAuthenticated(true);
             setUser(userData);
-            
-            localStorage.setItem("user", JSON.stringify(userData));
             localStorage.setItem("isAuthenticated", JSON.stringify(true));
             
             if (userData.favCourts) {

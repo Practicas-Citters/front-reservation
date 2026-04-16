@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
-import { users, type User } from "../mock-data/user-mock-data";
+import { type User } from "../mock-data/user-mock-data";
 import { toast } from "react-toastify";
 
 interface UserProviderProps {
@@ -36,27 +36,45 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     const [favoriteCourts, setFavoriteCourts] = useState<any[]>([]);
 
     const handleLogin = async (email: string, password: string) => {
+        try {
+            const response = await fetch("/api/user/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email, password })
+            });
 
-        const user = await fetch("/api/user/search/email/" + email).then(response => response.json());
+            const data = await response.json();
 
-        if (!user) {
-            console.log("Usuario no encontrado.");
-            setUser(null);
-            setIsAuthenticated(false);
-            toast.error("Usuario no encontrado. Compruebe sus credenciales e intentelo denuevo.");
+            if (data.error) {
+                console.log("Error en el login:", data.error);
+                setUser(null);
+                setIsAuthenticated(false);
+                toast.error("Error al iniciar sesión. Compruebe sus credenciales e intentelo de nuevo.");
+                return false;
+            }
+
+            console.log("Usuario encontrado:", data.user.username);
+            
+            const userData = data.user;
+            setIsAuthenticated(true);
+            setUser(userData);
+            
+            localStorage.setItem("user", JSON.stringify(userData));
+            localStorage.setItem("isAuthenticated", JSON.stringify(true));
+            
+            if (userData.favCourts) {
+                setFavoriteCourts(userData.favCourts);
+                localStorage.setItem("favoriteCourts", JSON.stringify(userData.favCourts));
+            }
+            
+            return true;
+        } catch (error) {
+            console.error("Error en la petición de login:", error);
+            toast.error("Error de conexión con el servidor.");
             return false;
         }
-
-        console.log("Usuario encontrado.")
-        setIsAuthenticated(true);
-        setUser(user);
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("isAuthenticated", JSON.stringify(true));
-        if (user.favCourts && user.favCourts.length > 0) {
-            setFavoriteCourts(user.favCourts);
-            localStorage.setItem("favoriteCourts", JSON.stringify(user.favCourts));
-        }
-        return true;
     }
 
     const handleLogout = () => {
@@ -230,12 +248,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             }
 
             if (storedUser && storedIsAuthenticated) {
-                const parsedUser = JSON.parse(storedUser);
-                try {
-                    await handleLogin(parsedUser.email, parsedUser.password);
-                } catch (error) {
-                    console.error("Error al restaurar la sesión:", error);
-                }
+                setUser(JSON.parse(storedUser));
+                setIsAuthenticated(true);
             }
 
             setIsLoading(false);
